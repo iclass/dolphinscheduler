@@ -963,14 +963,9 @@
                                 <workingDirectory>${project.basedir}</workingDirectory>
                                 <arguments>
                                     <argument>buildx</argument>
-                                    <argument>create</argument>
-                                    <argument>--use</argument>
-                                    <argument>–driver</argument>
-                                    <argument>docker-container</argument>
-                                    <argument>--driver-opt</argument>
-                                    <argument>image=dockerpracticesig/buildkit:master</argument>
-                                    <argument>--platform</argument>
-                                    <argument>linux/amd64,linux/arm64</argument>
+                                    <argument>build</argument>
+<!--                                    <argument>&#45;&#45;platform</argument>-->
+<!--                                    <argument>linux/amd64,linux/arm64</argument>-->
                                     <argument>--no-cache</argument>
                                     <argument>--push</argument>
                                     <argument>-t</argument>

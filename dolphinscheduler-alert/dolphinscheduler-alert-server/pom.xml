@@ -161,7 +161,7 @@
         </plugins>
     </build>
 
-    <!-- <profiles>
+    <profiles>
         <profile>
             <id>docker</id>
             <build>
@@ -173,5 +173,5 @@
                 </plugins>
             </build>
         </profile>
-    </profiles> -->
+    </profiles>
 </project>

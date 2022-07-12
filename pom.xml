@@ -968,12 +968,12 @@
 <!--                                    <argument>linux/amd64,linux/arm64</argument>-->
 <!--                                    <argument>&#45;&#45;no-cache</argument>-->
                                     <argument>push</argument>
-                                    <argument>-t</argument>
+<!--                                    <argument>-t</argument>-->
                                     <argument>${docker.hub}/${docker.repo}:${docker.tag}</argument>
-                                    <argument>-t</argument>
-                                    <argument>${docker.hub}/${docker.repo}:latest</argument>
-                                    <argument>${project.basedir}</argument>
-                                    <argument>--file=src/main/docker/Dockerfile</argument>
+<!--                                    <argument>-t</argument>-->
+<!--                                    <argument>${docker.hub}/${docker.repo}:latest</argument>-->
+<!--                                    <argument>${project.basedir}</argument>-->
+<!--                                    <argument>&#45;&#45;file=src/main/docker/Dockerfile</argument>-->
                                 </arguments>
                             </configuration>
                         </execution>

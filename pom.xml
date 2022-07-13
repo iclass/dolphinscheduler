@@ -964,17 +964,16 @@
                                 <arguments>
                                     <argument>buildx</argument>
                                     <argument>build</argument>
-<!--                                    <argument>&#45;&#45;platform</argument>-->
-<!--                                    <argument>linux/amd64,linux/arm64</argument>-->
-<!--                                    <argument>&#45;&#45;no-cache</argument>-->
+                                    <argument>--platform</argument>
+                                    <argument>linux/amd64,linux/arm64</argument>
+                                    <argument>--no-cache</argument>
                                     <argument>--push</argument>
                                     <argument>-t</argument>
                                     <argument>${docker.hub}/${docker.repo}:${docker.tag}</argument>
-<!--                                    <argument>-t</argument>-->
-<!--                                    <argument>${docker.hub}/${docker.repo}</argument>-->
-                                    <argument>-f</argument>
-                                    <argument>src/main/docker/Dockerfile</argument>
-                                    <argument>.</argument>
+                                    <argument>-t</argument>
+                                    <argument>${docker.hub}/${docker.repo}:latest</argument>
+                                    <argument>${project.basedir}</argument>
+                                    <argument>--file=src/main/docker/Dockerfile</argument>
                                 </arguments>
                             </configuration>
                         </execution>

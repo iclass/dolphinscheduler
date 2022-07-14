@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dolphinscheduler-tools</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>

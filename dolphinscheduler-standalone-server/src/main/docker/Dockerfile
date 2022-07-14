@@ -22,12 +22,17 @@ ENV TZ Asia/Shanghai
 ENV DOLPHINSCHEDULER_HOME /opt/dolphinscheduler
 
 RUN apt update ; \
-    apt install -y curl sudo ; \
+    apt install -y curl sudo wget; \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR $DOLPHINSCHEDULER_HOME
 
 ADD ./target/standalone-server $DOLPHINSCHEDULER_HOME
+
+RUN wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar
+
+RUN cp mysql-connector-java-8.0.16.jar /opt/dolphinscheduler/lib
+
 
 EXPOSE 12345 25333
 

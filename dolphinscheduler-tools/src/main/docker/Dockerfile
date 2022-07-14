@@ -22,12 +22,16 @@ ENV TZ Asia/Shanghai
 ENV DOLPHINSCHEDULER_HOME /opt/dolphinscheduler
 
 RUN apt update ; \
-    apt install -y curl ; \
+    apt install -y curl wget; \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR $DOLPHINSCHEDULER_HOME
 
 # see doc: https://dolphinscheduler.apache.org/en-us/docs/dev/user_doc/guide/upgrade.html
 ADD ./target/tools $DOLPHINSCHEDULER_HOME/tools
+
+RUN wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar
+
+RUN cp mysql-connector-java-8.0.16.jar /opt/dolphinscheduler/lib
 
 ENTRYPOINT [ "/bin/bash" ]

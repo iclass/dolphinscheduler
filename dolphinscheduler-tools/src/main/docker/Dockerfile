@@ -21,8 +21,8 @@ ENV DOCKER true
 ENV TZ Asia/Shanghai
 ENV DOLPHINSCHEDULER_HOME /opt/dolphinscheduler
 
-RUN apt update ; \
-    apt install -y curl wget; \
+RUN sed -i "s@http://deb.debian.org@http://mirrors.tencent.com@g" /etc/apt/sources.list &&  apt update ; \
+    apt install -y curl wget ; \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR $DOLPHINSCHEDULER_HOME

@@ -46,7 +46,8 @@ import {
   ContainerOutlined,
   ApartmentOutlined,
   BarsOutlined,
-  CloudServerOutlined
+  CloudServerOutlined,
+  ClusterOutlined
 } from '@vicons/antd'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user/user'
@@ -92,12 +93,12 @@ export function useDataList() {
       {
         label: () => h(NEllipsis, null, { default: () => t('menu.home') }),
         key: 'home',
-        icon: renderIcon(HomeOutlined)
+        // icon: renderIcon(HomeOutlined)
       },
       {
         label: () => h(NEllipsis, null, { default: () => t('menu.project') }),
         key: 'projects',
-        icon: renderIcon(ProfileOutlined),
+        // icon: renderIcon(ProfileOutlined),
         children: [
           {
             label: t('menu.project_overview'),
@@ -143,7 +144,7 @@ export function useDataList() {
       {
         label: () => h(NEllipsis, null, { default: () => t('menu.resources') }),
         key: 'resource',
-        icon: renderIcon(FolderOutlined),
+        // icon: renderIcon(FolderOutlined),
         children: [
           {
             label: t('menu.file_manage'),
@@ -186,7 +187,7 @@ export function useDataList() {
         label: () =>
           h(NEllipsis, null, { default: () => t('menu.data_quality') }),
         key: 'data-quality',
-        icon: renderIcon(ContainerOutlined),
+        // icon: renderIcon(ContainerOutlined),
         children: [
           {
             label: t('menu.task_result'),
@@ -204,13 +205,13 @@ export function useDataList() {
         label: () =>
           h(NEllipsis, null, { default: () => t('menu.datasource') }),
         key: 'datasource',
-        icon: renderIcon(DatabaseOutlined),
+        // icon: renderIcon(DatabaseOutlined),
         children: []
       },
       {
         label: () => h(NEllipsis, null, { default: () => t('menu.monitor') }),
         key: 'monitor',
-        icon: renderIcon(DesktopOutlined),
+        // icon: renderIcon(DesktopOutlined),
         children: [
           {
             label: t('menu.service_manage'),
@@ -251,7 +252,7 @@ export function useDataList() {
       {
         label: () => h(NEllipsis, null, { default: () => t('menu.security') }),
         key: 'security',
-        icon: renderIcon(SafetyCertificateOutlined),
+        // icon: renderIcon(SafetyCertificateOutlined),
         children:
           (userStore.getUserInfo as UserInfoRes).userType === 'ADMIN_USER'
             ? [
@@ -290,6 +291,11 @@ export function useDataList() {
                   key: '/security/environment-manage',
                   icon: renderIcon(EnvironmentOutlined)
                 },
+                // {
+                //   label: t('menu.cluster_manage'),
+                //   key: '/security/cluster-manage',
+                //   icon: renderIcon(ClusterOutlined)
+                // },
                 {
                   label: t('menu.k8s_namespace_manage'),
                   key: '/security/k8s-namespace-manage',

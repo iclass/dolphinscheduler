@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { find, omit, cloneDeep } from 'lodash'
+import { omit, cloneDeep } from 'lodash'
 import type {
   INodeData,
   ITaskData,
@@ -199,12 +199,23 @@ export function formatParams(data: INodeData): {
   }
 
   if (data.taskType === 'SEATUNNEL') {
-    if (data.deployMode === 'local') {
-      data.master = 'local'
-      data.masterUrl = ''
-      data.deployMode = 'client'
+    taskParams.engine = data.engine
+    taskParams.useCustom = data.useCustom
+    taskParams.rawScript = data.rawScript
+    switch (data.engine) {
+      case 'FLINK':
+        taskParams.runMode = data.runMode
+        taskParams.others = data.others
+        break
+      case 'SPARK':
+        taskParams.deployMode = data.deployMode
+        taskParams.master = data.master
+        taskParams.masterUrl = data.masterUrl
+        taskParams.queue = data.queue
+        break
+      default:
+        break
     }
-    buildRawScript(data)
   }
 
   if (data.taskType === 'SWITCH') {
@@ -316,6 +327,70 @@ export function formatParams(data: INodeData): {
   if (data.taskType === 'ZEPPELIN') {
     taskParams.noteId = data.zeppelinNoteId
     taskParams.paragraphId = data.zeppelinParagraphId
+    taskParams.parameters = data.parameters
+  }
+
+  if (data.taskType === 'K8S') {
+    taskParams.namespace = data.namespace
+    taskParams.minCpuCores = data.minCpuCores
+    taskParams.minMemorySpace = data.minMemorySpace
+    taskParams.image = data.image
+  }
+
+  if (data.taskType === 'JUPYTER') {
+    taskParams.condaEnvName = data.condaEnvName
+    taskParams.inputNotePath = data.inputNotePath
+    taskParams.outputNotePath = data.outputNotePath
+    taskParams.parameters = data.parameters
+    taskParams.kernel = data.kernel
+    taskParams.engine = data.engine
+    taskParams.executionTimeout = data.executionTimeout
+    taskParams.startTimeout = data.startTimeout
+    taskParams.others = data.others
+  }
+
+  if (data.taskType === 'MLFLOW') {
+    taskParams.algorithm = data.algorithm
+    taskParams.params = data.params
+    taskParams.searchParams = data.searchParams
+    taskParams.dataPath = data.dataPath
+    taskParams.experimentName = data.experimentName
+    taskParams.modelName = data.modelName
+    taskParams.mlflowTrackingUri = data.mlflowTrackingUri
+    taskParams.mlflowJobType = data.mlflowJobType
+    taskParams.automlTool = data.automlTool
+    taskParams.registerModel = data.registerModel
+    taskParams.mlflowTaskType = data.mlflowTaskType
+    taskParams.deployType = data.deployType
+    taskParams.deployPort = data.deployPort
+    taskParams.deployModelKey = data.deployModelKey
+    taskParams.mlflowProjectRepository = data.mlflowProjectRepository
+    taskParams.mlflowProjectVersion = data.mlflowProjectVersion
+    taskParams.cpuLimit = data.cpuLimit
+    taskParams.memoryLimit = data.memoryLimit
+  }
+
+  if (data.taskType === 'DVC') {
+    taskParams.dvcTaskType = data.dvcTaskType
+    taskParams.dvcRepository = data.dvcRepository
+    taskParams.dvcVersion = data.dvcVersion
+    taskParams.dvcDataLocation = data.dvcDataLocation
+    taskParams.dvcMessage = data.dvcMessage
+    taskParams.dvcLoadSaveDataPath = data.dvcLoadSaveDataPath
+    taskParams.dvcStoreUrl = data.dvcStoreUrl
+  }
+
+  if (data.taskType === 'DINKY') {
+    taskParams.address = data.address
+    taskParams.taskId = data.taskId
+    taskParams.online = data.online
+  }
+
+  if (data.taskType === 'OPENMLDB') {
+    taskParams.zk = data.zk
+    taskParams.zkPath = data.zkPath
+    taskParams.executeMode = data.executeMode
+    taskParams.sql = data.sql
   }
 
   if (data.taskType === 'PIGEON') {
@@ -363,7 +438,9 @@ export function formatParams(data: INodeData): {
       timeout: data.timeoutFlag ? data.timeout : 0,
       timeoutFlag: data.timeoutFlag ? 'OPEN' : 'CLOSE',
       timeoutNotifyStrategy: data.timeoutFlag ? timeoutNotifyStrategy : '',
-      workerGroup: data.workerGroup
+      workerGroup: data.workerGroup,
+      cpuQuota: data.cpuQuota || -1,
+      memoryMax: data.memoryMax || -1
     }
   } as {
     processDefinitionCode: string
@@ -540,22 +617,6 @@ export function formatModel(data: ITaskData) {
     params.others = data.taskParams.sparkParameters.others
   }
 
-  if (data.taskParams?.jobFlowDefineJson) {
-    params.jobFlowDefineJson = data.taskParams.jobFlowDefineJson
-  }
-
-  if (data.taskParams?.zeppelinNoteId) {
-    params.zeppelinNoteId = data.taskParams.zeppelinNoteId
-  }
-
-  if (data.taskParams?.zeppelinParagraphId) {
-    params.zeppelinParagraphId = data.taskParams.zeppelinParagraphId
-  }
-
-  if (data.taskParams?.processDefinitionCode) {
-    params.processDefinitionCode = data.taskParams.processDefinitionCode
-  }
-
   if (data.taskParams?.conditionResult?.successNode?.length) {
     params.successBranch = data.taskParams.conditionResult.successNode[0]
   }
@@ -572,50 +633,4 @@ export function formatModel(data: ITaskData) {
     params.isCustomTask = data.taskParams.jobType === 'CUSTOM'
   }
   return params
-}
-
-const buildRawScript = (model: INodeData) => {
-  const baseScript = 'sh ${WATERDROP_HOME}/bin/start-waterdrop.sh'
-  if (!model.resourceList) return
-
-  let master = model.master
-  let masterUrl = model?.masterUrl ? model?.masterUrl : ''
-  let deployMode = model.deployMode
-  const queue = model.queue
-
-  if (model.deployMode === 'local') {
-    master = 'local'
-    masterUrl = ''
-    deployMode = 'client'
-  }
-
-  if (master === 'yarn' || master === 'local') {
-    masterUrl = ''
-  }
-
-  let localParams = ''
-  model?.localParams?.forEach((param: any) => {
-    localParams = localParams + ' --variable ' + param.prop + '=' + param.value
-  })
-
-  let rawScript = ''
-  model.resourceList?.forEach((id: number) => {
-    const item = find(model.resourceFiles, { id: id })
-
-    rawScript =
-      rawScript +
-      baseScript +
-      ' --master ' +
-      master +
-      masterUrl +
-      ' --deploy-mode ' +
-      deployMode +
-      ' --queue ' +
-      queue
-    if (item && item.fullName) {
-      rawScript = rawScript + ' --config ' + item.fullName
-    }
-    rawScript = rawScript + localParams + ' \n'
-  })
-  model.rawScript = rawScript ? rawScript : ''
 }

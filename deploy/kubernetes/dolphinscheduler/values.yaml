@@ -22,8 +22,8 @@
 timezone: "Asia/Shanghai"
 
 image:
-  registry: "dolphinscheduler.docker.scarf.sh/apache"
-  tag: "3.0.0-beta-2"
+  registry: "aiban-docker.pkg.coding.net/tianyin/apache"
+  tag: "3.0.0-beta-2-tianyin"
   pullPolicy: "IfNotPresent"
   pullSecret: ""
 

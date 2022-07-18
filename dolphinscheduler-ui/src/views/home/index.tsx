@@ -59,7 +59,7 @@ export default defineComponent({
     watch(() => router.currentRoute.value.path,(toPath) => {
       //要执行的方法
       if(router.currentRoute.value.query.jsessionid){
-        userStore.setSessionId(router.currentRoute.value.query.jsessionid)
+        userStore.setSessionId(String(router.currentRoute.value.query.jsessionid))
 
       }
       

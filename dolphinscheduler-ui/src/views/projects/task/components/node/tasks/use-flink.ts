@@ -52,8 +52,7 @@ export function useFlink({
     taskManagerMemory: '2G',
     slot: 1,
     taskManager: 2,
-    parallelism: 1,
-    timeoutNotifyStrategy: ['WARN']
+    parallelism: 1
   })
 
   let extra: IJsonItem[] = []

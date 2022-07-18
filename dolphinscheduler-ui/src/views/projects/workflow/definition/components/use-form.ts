@@ -51,15 +51,14 @@ export const useForm = () => {
     startForm: {
       processDefinitionCode: -1,
       startEndTime: [new Date(year, month, day), new Date(year, month, day)],
-      scheduleTime: '',
-      dataDateType: 1,
+      scheduleTime: null,
       failureStrategy: 'CONTINUE',
       warningType: 'NONE',
       warningGroupId: null,
       execType: 'START_PROCESS',
       startNodeList: '',
       taskDependType: 'TASK_POST',
-      complementDependentMode: 'OFF_MODE',
+      dependentMode: 'OFF_MODE',
       runMode: 'RUN_MODE_SERIAL',
       processInstancePriority: 'MEDIUM',
       workerGroup: 'default',
@@ -68,26 +67,7 @@ export const useForm = () => {
       expectedParallelismNumber: '',
       dryRun: 0
     },
-    saving: false,
-    rules: {
-      scheduleTime: {
-        trigger: ['input', 'blur'],
-        validator(unuse: any, value: string) {
-          if (!value) return
-          if (
-            !/(((19|20)[0-9]{2})-((0[1-9])|(1[0-2]))-((0[1-9])|((1|2)[0-9])|(3[0-1]))([ ])([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]))(,(((19|20)[0-9]{2})-((0[1-9])|(1[0-2]))-((0[1-9])|((1|2)[0-9])|(3[0-1]))([ ])([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])))*$/.test(
-              value
-            )
-          ) {
-            return new Error(t('project.workflow.schedule_date_tips'))
-          }
-          const dates = value.split(',')
-          if (dates.length > 100) {
-            return new Error(t('project.workflow.schedule_date_limit'))
-          }
-        }
-      }
-    }
+    saving: false
   })
 
   const timingState = reactive({

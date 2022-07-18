@@ -25,9 +25,6 @@ export function useDelayTime(model: { [field: string]: any }): IJsonItem {
     field: 'delayTime',
     name: t('project.node.delay_execution_time'),
     span: 12,
-    props: {
-      min: 0
-    },
     slots: {
       suffix: () => t('project.node.minute')
     },

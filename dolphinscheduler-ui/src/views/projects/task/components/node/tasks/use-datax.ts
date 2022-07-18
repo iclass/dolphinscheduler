@@ -42,16 +42,13 @@ export function useDataX({
     failRetryInterval: 1,
     failRetryTimes: 0,
     workerGroup: 'default',
-    cpuQuota: -1,
-    memoryMax: -1,
     delayTime: 0,
     timeout: 30,
     customConfig: false,
     dsType: 'MYSQL',
     dtType: 'MYSQL',
     preStatements: [],
-    postStatements: [],
-    timeoutNotifyStrategy: ['WARN']
+    postStatements: []
   } as INodeData)
 
   let extra: IJsonItem[] = []
@@ -79,7 +76,6 @@ export function useDataX({
       Fields.useEnvironmentName(model, !model.id),
       ...Fields.useTaskGroup(model, projectCode),
       ...Fields.useFailed(),
-      ...Fields.useResourceLimit(),
       Fields.useDelayTime(model),
       ...Fields.useTimeoutAlarm(model),
       ...Fields.useDataX(model),

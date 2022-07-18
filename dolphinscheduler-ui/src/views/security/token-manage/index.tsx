@@ -22,13 +22,14 @@ import {
   NDataTable,
   NIcon,
   NInput,
-  NPagination,
-  NSpace
+  NPagination
 } from 'naive-ui'
 import { SearchOutlined } from '@vicons/antd'
 import { useI18n } from 'vue-i18n'
 import { useTable } from './use-table'
+import Card from '@/components/card'
 import TokenModal from './components/token-modal'
+import styles from './index.module.scss'
 
 const tokenManage = defineComponent({
   name: 'token-manage',
@@ -101,18 +102,20 @@ const tokenManage = defineComponent({
     } = this
 
     return (
-      <NSpace vertical>
-        <NCard size='small'>
-          <NSpace justify='space-between'>
-            <NButton
-              class='btn-create-token'
-              size='small'
-              type='primary'
-              onClick={handleModalChange}
-            >
-              {t('security.token.create_token')}
-            </NButton>
-            <NSpace>
+      <div>
+        <NCard>
+          <div class={styles['search-card']}>
+            <div>
+              <NButton
+                class='btn-create-token'
+                size='small'
+                type='primary'
+                onClick={handleModalChange}
+              >
+                {t('security.token.create_token')}
+              </NButton>
+            </div>
+            <div class={styles.box}>
               <NInput
                 size='small'
                 clearable
@@ -128,31 +131,29 @@ const tokenManage = defineComponent({
                   )
                 }}
               </NButton>
-            </NSpace>
-          </NSpace>
+            </div>
+          </div>
         </NCard>
-        <NCard size='small'>
-          <NSpace vertical>
-            <NDataTable
-              loading={loadingRef}
-              row-class-name='items'
-              columns={this.columns}
-              data={this.tableData}
+        <Card class={styles['table-card']}>
+          <NDataTable
+            loading={loadingRef}
+            row-class-name='items'
+            columns={this.columns}
+            data={this.tableData}
+          />
+          <div class={styles.pagination}>
+            <NPagination
+              v-model:page={this.page}
+              v-model:page-size={this.pageSize}
+              page-count={this.totalPage}
+              show-size-picker
+              page-sizes={[10, 30, 50]}
+              show-quick-jumper
+              onUpdatePage={requestData}
+              onUpdatePageSize={onUpdatePageSize}
             />
-            <NSpace justify='center'>
-              <NPagination
-                v-model:page={this.page}
-                v-model:page-size={this.pageSize}
-                page-count={this.totalPage}
-                show-size-picker
-                page-sizes={[10, 30, 50]}
-                show-quick-jumper
-                onUpdatePage={requestData}
-                onUpdatePageSize={onUpdatePageSize}
-              />
-            </NSpace>
-          </NSpace>
-        </NCard>
+          </div>
+        </Card>
         <TokenModal
           showModalRef={this.showModalRef}
           statusRef={this.statusRef}
@@ -160,7 +161,7 @@ const tokenManage = defineComponent({
           onCancelModal={onCancelModal}
           onConfirmModal={onConfirmModal}
         />
-      </NSpace>
+      </div>
     )
   }
 })

@@ -29,7 +29,7 @@ export function useEnvironmentName(
   let environmentList = [] as IEnvironmentNameOption[]
   const options = ref([] as IEnvironmentNameOption[])
   const loading = ref(false)
-  let mounted = false
+  const value = ref()
 
   const getEnvironmentList = async () => {
     if (loading.value) return
@@ -46,11 +46,6 @@ export function useEnvironmentName(
       filterByWorkerGroup(option)
     )
     loading.value = false
-    if (options.value.length === 0) {
-      model.environmentCode = null
-    } else {
-      isCreate && (model.environmentCode = options.value[0].value)
-    }
   }
 
   const filterByWorkerGroup = (option: IEnvironmentNameOption) => {
@@ -60,20 +55,27 @@ export function useEnvironmentName(
   }
 
   watch(
-    () => model.workerGroup,
+    () => options.value.length,
     () => {
-      if (!model.workerGroup || !mounted) return
-      options.value = environmentList.filter((option: IEnvironmentNameOption) =>
-        filterByWorkerGroup(option)
-      )
-      model.environmentCode =
-        options.value.length === 0 ? null : options.value[0].value
+      if (isCreate && options.value.length === 1 && !value.value) {
+        model.environmentCode = options.value[0].value
+      }
+      if (options.value.length === 0) model.environmentCode = null
     }
   )
 
-  onMounted(async () => {
-    await getEnvironmentList()
-    mounted = true
+  watch(
+    () => model.workerGroup,
+    () => {
+      if (!model.workerGroup) return
+      options.value = environmentList.filter((option: IEnvironmentNameOption) =>
+        filterByWorkerGroup(option)
+      )
+    }
+  )
+
+  onMounted(() => {
+    getEnvironmentList()
   })
 
   return {

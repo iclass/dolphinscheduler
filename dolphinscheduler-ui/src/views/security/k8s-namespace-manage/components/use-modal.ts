@@ -35,7 +35,8 @@ export function useModal(
       id: ref<number>(-1),
       namespace: ref(''),
       k8s: ref(''),
-      userId: ref(''),
+      owner: ref(''),
+      tag: ref(''),
       limitsCpu: ref(''),
       limitsMemory: ref('')
     },
@@ -83,9 +84,10 @@ export function useModal(
       createK8sNamespace(variables.model).then(() => {
         variables.model.namespace = ''
         variables.model.k8s = ''
+        variables.model.tag = ''
         variables.model.limitsCpu = ''
         variables.model.limitsMemory = ''
-        variables.model.userId = ''
+        variables.model.owner = ''
         ctx.emit('confirmModal', props.showModalRef)
       })
     })

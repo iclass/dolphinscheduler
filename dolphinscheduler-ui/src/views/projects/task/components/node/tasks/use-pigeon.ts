@@ -42,8 +42,7 @@ export function usePigeon({
     workerGroup: 'default',
     delayTime: 0,
     timeout: 30,
-    targetJobName: '',
-    timeoutNotifyStrategy: ['WARN']
+    targetJobName: ''
   } as INodeData)
 
   let extra: IJsonItem[] = []

@@ -78,8 +78,13 @@ export function useTable() {
       },
       {
         title: t('security.k8s_namespace.owner'),
-        key: 'userId',
+        key: 'owner',
         ...COLUMN_WIDTH_CONFIG['userName']
+      },
+      {
+        title: t('security.k8s_namespace.tag'),
+        key: 'tag',
+        ...COLUMN_WIDTH_CONFIG['tag']
       },
       {
         title: t('security.k8s_namespace.limit_cpu'),

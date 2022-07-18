@@ -49,8 +49,7 @@ export function useHttp({
     url: '',
     condition: '',
     connectTimeout: 60000,
-    socketTimeout: 60000,
-    timeoutNotifyStrategy: ['WARN']
+    socketTimeout: 60000
   } as INodeData)
 
   let extra: IJsonItem[] = []

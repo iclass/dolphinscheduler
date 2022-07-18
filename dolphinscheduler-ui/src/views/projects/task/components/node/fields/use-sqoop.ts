@@ -77,8 +77,7 @@ export function useSqoop(model: { [field: string]: any }): IJsonItem[] {
       name: t('project.node.concurrency'),
       span: unCustomSpan,
       props: {
-        placeholder: t('project.node.concurrency_tips'),
-        min: 1
+        placeholder: t('project.node.concurrency_tips')
       }
     },
     {

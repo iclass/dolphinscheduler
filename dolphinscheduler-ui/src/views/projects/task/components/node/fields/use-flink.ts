@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { computed, watch, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useCustomParams, useMainJar, useResources } from '.'
+import { useCustomParams, useDeployMode, useMainJar, useResources } from '.'
 import type { IJsonItem } from '../types'
 
 export function useFlink(model: { [field: string]: any }): IJsonItem[] {
@@ -36,53 +36,14 @@ export function useFlink(model: { [field: string]: any }): IJsonItem[] {
   )
 
   const taskManagerNumberSpan = computed(() =>
-    model.flinkVersion === '<1.10' && model.deployMode !== 'local' ? 12 : 0
+    model.flinkVersion === '<1.10' && model.deployMode === 'cluster' ? 12 : 0
   )
 
   const deployModeSpan = computed(() =>
-    model.deployMode !== 'local' ? 12 : 0
+    model.deployMode === 'cluster' ? 12 : 0
   )
 
-  const appNameSpan = computed(() => (model.deployMode !== 'local' ? 24 : 0))
-
-  const deployModeOptions = computed(() => {
-    if (model.flinkVersion === '<1.10') {
-      return [
-        {
-          label: 'cluster',
-          value: 'cluster'
-        },
-        {
-          label: 'local',
-          value: 'local'
-        }
-      ];
-    } else {
-      return [
-        {
-          label: 'per-job/cluster',
-          value: 'cluster'
-        },
-        {
-          label: 'application',
-          value: 'application'
-        },
-        {
-          label: 'local',
-          value: 'local'
-        }
-      ];
-    }
-  })
-
-  watch(
-    () => model.flinkVersion,
-    () => {
-      if (model.flinkVersion === '<1.10' && model.deployMode === 'application') {
-        model.deployMode = 'cluster'
-      }
-    }
-  )
+  const appNameSpan = computed(() => (model.deployMode === 'cluster' ? 24 : 0))
 
   watchEffect(() => {
     model.flinkVersion = model.programType === 'SQL' ? '>=1.13' : '<1.10'
@@ -125,13 +86,7 @@ export function useFlink(model: { [field: string]: any }): IJsonItem[] {
       }
     },
     useMainJar(model),
-    {
-      type: 'radio',
-      field: 'deployMode',
-      name: t('project.node.deploy_mode'),
-      options: deployModeOptions,
-      span: 24
-    },
+    useDeployMode(24, ref(false)),
     {
       type: 'editor',
       field: 'initScript',
@@ -236,8 +191,7 @@ export function useFlink(model: { [field: string]: any }): IJsonItem[] {
       name: t('project.node.task_manager_number'),
       span: taskManagerNumberSpan,
       props: {
-        placeholder: t('project.node.task_manager_number_tips'),
-        min: 1
+        placeholder: t('project.node.task_manager_number_tips')
       },
       value: model.taskManager
     },
@@ -314,11 +268,7 @@ const FLINK_VERSIONS = [
     value: '<1.10'
   },
   {
-    label: '1.11',
-    value: '1.11'
-  },
-  {
-    label: '>=1.12',
-    value: '>=1.12'
+    label: '>=1.10',
+    value: '>=1.10'
   }
 ]

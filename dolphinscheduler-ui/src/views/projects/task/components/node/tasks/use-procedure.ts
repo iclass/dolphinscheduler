@@ -46,8 +46,7 @@ export function useProcedure({
     timeout: 30,
     type: data?.taskParams?.type ? data?.taskParams?.type : 'MYSQL',
     datasource: data?.taskParams?.datasource,
-    method: data?.taskParams?.method,
-    timeoutNotifyStrategy: ['WARN']
+    method: data?.taskParams?.method
   } as INodeData)
 
   let extra: IJsonItem[] = []

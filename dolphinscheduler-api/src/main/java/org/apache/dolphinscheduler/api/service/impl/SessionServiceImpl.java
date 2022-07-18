@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -158,6 +159,40 @@ public class SessionServiceImpl extends BaseServiceImpl implements SessionServic
         } catch (Exception e) {
             logger.warn("userId : {} , ip : {} , find more one session", loginUser.getId(), ip);
         }
+    }
+
+    /**
+     * create SSO Session
+     * @param sessionId
+     * @param userId
+     * @param ip
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void createSSOSession(String sessionId,Integer userId,String ip) {
+
+        // logined
+        List<Session> sessionList = sessionMapper.queryByUserId(userId);
+
+        Date now = new Date();
+
+        /**
+         * if you have logged in，clear relative record
+         */
+        if (CollectionUtils.isNotEmpty(sessionList)) {
+           sessionMapper.deleteBatchIds(sessionList.stream().map(s->s.getId()).collect(Collectors.toList()));
+        }
+
+        // assign new session
+        Session session = new Session();
+
+        session.setId(sessionId);
+        session.setIp(ip);
+        session.setUserId(userId);
+        session.setLastLoginTime(now);
+
+        sessionMapper.insert(session);
+
     }
 
 }

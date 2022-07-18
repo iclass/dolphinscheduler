@@ -339,4 +339,32 @@ public class TenantServiceImpl extends BaseServiceImpl implements TenantService 
         }
         return result;
     }
+
+    public void createSSOTenant(){
+
+    }
+
+    /**
+     * create tenant by sso user
+     * @param userName
+     * @throws Exception
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer createSSOTenant(String userName) throws Exception {
+        Tenant tenant = new Tenant();
+        Date now = new Date();
+        tenant.setTenantCode(userName);
+        tenant.setQueueId(1);
+        tenant.setCreateTime(now);
+        tenant.setUpdateTime(now);
+        // save
+        tenantMapper.insert(tenant);
+
+        // if storage startup
+        if (PropertyUtils.getResUploadStartupState()) {
+            storageOperate.createTenantDirIfNotExists(userName);
+        }
+        return tenant.getId();
+    }
 }

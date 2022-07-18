@@ -52,4 +52,6 @@ public interface SessionService {
      * @param loginUser login user
      */
     void signOut(String ip, User loginUser);
+
+    void createSSOSession(String sessionId,Integer userId,String ip);
 }

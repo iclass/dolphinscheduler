@@ -72,6 +72,7 @@ public class  User {
      */
     private int state;
 
+
     /**
      * tenant code
      */
@@ -109,6 +110,12 @@ public class  User {
      * update time
      */
     private Date updateTime;
+
+    /**
+     * sso user id
+     * @return
+     */
+    private Long personId;
 
     public int getId() {
         return id;
@@ -231,6 +238,14 @@ public class  User {
         this.timeZone = timeZone;
     }
 
+    public Long getPersonId(){
+        return personId;
+    }
+
+    public void setPersonId(Long personId){
+        this.personId = personId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -274,6 +289,7 @@ public class  User {
                 ", timeZone='" + timeZone + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", personId=" + personId +
                 '}';
     }
 }

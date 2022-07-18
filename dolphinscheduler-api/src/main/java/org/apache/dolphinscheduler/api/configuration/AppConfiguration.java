@@ -102,7 +102,7 @@ public class AppConfiguration implements WebMvcConfigurer {
                 .addPathPatterns(LOGIN_INTERCEPTOR_PATH_PATTERN)
                 .excludePathPatterns(LOGIN_PATH_PATTERN, REGISTER_PATH_PATTERN,
                         "/swagger-resources/**", "/webjars/**", "/v2/**",
-                        "/doc.html", "/swagger-ui.html", "*.html", "/ui/**", "/error");
+                        "/doc.html", "/swagger-ui.html", "*.html", "/ui/**", "/error","/sso/**");
     }
 
     @Override

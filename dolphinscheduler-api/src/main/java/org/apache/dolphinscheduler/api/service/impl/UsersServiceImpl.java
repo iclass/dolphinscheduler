@@ -193,7 +193,9 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
         Date now = new Date();
 
         user.setUserName(userName);
-        user.setUserPassword(EncryptionUtils.getMd5(userPassword));
+        if (StringUtils.isNotEmpty(userPassword)){
+            user.setUserPassword(EncryptionUtils.getMd5(userPassword));
+        }
         user.setEmail(email);
         user.setTenantId(tenantId);
         user.setPhone(phone);
@@ -206,6 +208,42 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
             queue = "";
         }
         user.setQueue(queue);
+
+        // save user
+        userMapper.insert(user);
+        return user;
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public User createSSOUser(String userName,
+                           String userPassword,
+                           String email,
+                           int tenantId,
+                           String phone,
+                           String queue,
+                           int state,
+                           long personId) {
+        User user = new User();
+        Date now = new Date();
+
+        user.setUserName(userName);
+        if (StringUtils.isNotEmpty(userPassword)){
+            user.setUserPassword(EncryptionUtils.getMd5(userPassword));
+        }
+        user.setEmail(email);
+        user.setTenantId(tenantId);
+        user.setPhone(phone);
+        user.setState(state);
+        // create general users, administrator users are currently built-in
+        user.setUserType(UserType.GENERAL_USER);
+        user.setCreateTime(now);
+        user.setUpdateTime(now);
+        if (StringUtils.isEmpty(queue)) {
+            queue = "";
+        }
+        user.setQueue(queue);
+        user.setPersonId(personId);
 
         // save user
         userMapper.insert(user);

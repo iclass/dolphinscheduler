@@ -22,6 +22,7 @@ import org.apache.dolphinscheduler.api.security.impl.pwd.PasswordAuthenticator;
 
 import org.apache.commons.lang.StringUtils;
 
+import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.cas.web.CasAuthenticationFilter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
-public class SecurityConfig {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     @Value("${security.authentication.type:PASSWORD}")
@@ -39,6 +47,17 @@ public class SecurityConfig {
 
     private AutowireCapableBeanFactory beanFactory;
     private AuthenticationType authenticationType;
+
+    @Autowired
+    AuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    AuthenticationProvider authenticationProvider;
+    @Autowired
+    SingleSignOutFilter singleSignOutFilter;
+    @Autowired
+    LogoutFilter logoutFilter;
+    @Autowired
+    CasAuthenticationFilter casAuthenticationFilter;
 
     @Autowired
     public SecurityConfig(AutowireCapableBeanFactory beanFactory) {
@@ -71,5 +90,32 @@ public class SecurityConfig {
         }
         beanFactory.autowireBean(authenticator);
         return authenticator;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/user/**")
+                .hasRole("user")
+                .antMatchers("/doc.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/v2/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("*.html").permitAll()
+                .antMatchers("/ui/**").permitAll()
+                .antMatchers("/error").permitAll()
+                .antMatchers("/login/cas").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .addFilter(casAuthenticationFilter)
+                .addFilterBefore(singleSignOutFilter, CasAuthenticationFilter.class)
+                .addFilterBefore(logoutFilter, LogoutFilter.class);
     }
 }

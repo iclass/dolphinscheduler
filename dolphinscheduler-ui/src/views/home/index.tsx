@@ -23,6 +23,8 @@ import { useTaskState } from './use-task-state'
 import { useProcessState } from './use-process-state'
 import StateCard from './components/state-card'
 import DefinitionCard from './components/definition-card'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user/user'
 
 export default defineComponent({
   name: 'home',
@@ -31,12 +33,15 @@ export default defineComponent({
     const dateRef = ref([getTime(startOfToday()), Date.now()])
     const taskStateRef = ref()
     const processStateRef = ref()
+    const router = useRouter()
+    const userStore = useUserStore()
     const { getTaskState, taskVariables } = useTaskState()
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = () => {
       taskStateRef.value = getTaskState(dateRef.value)
       processStateRef.value = getProcessState(dateRef.value)
+
     }
 
     const handleTaskDate = (val: any) => {
@@ -48,12 +53,21 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      console.log(router.currentRoute.value.path)
       initData()
     })
+    watch(() => router.currentRoute.value.path,(toPath) => {
+      //要执行的方法
+      if(router.currentRoute.value.query.jsessionid){
+        userStore.setSessionId(router.currentRoute.value.query.jsessionid)
 
+      }
+      
+      console.log(router.currentRoute.value)
+   },{immediate: true,deep: true})
     watch(
       () => locale.value,
-      () => initData()
+      () => initData(),
     )
 
     return {

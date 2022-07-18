@@ -55,6 +55,20 @@ public interface UsersService {
     User createUser(UserType userType, String userId, String email);
 
     /**
+     * create sso user
+     * @param userName
+     * @param userPassword
+     * @param email
+     * @param tenantId
+     * @param phone
+     * @param queue
+     * @param state
+     * @return
+     */
+    User createSSOUser(String userName, String userPassword, String email,
+                       int tenantId, String phone, String queue, int state, long personId);
+
+    /**
      * get user by user name
      *
      * @param userName user name

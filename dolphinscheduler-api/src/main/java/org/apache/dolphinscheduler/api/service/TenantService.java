@@ -108,4 +108,11 @@ public interface TenantService {
      * @return tenant list
      */
     Map<String, Object> queryByTenantCode(String tenantCode);
+
+    /**
+     * create tenant by sso user
+     *
+     * @param userName
+     */
+    Integer createSSOTenant(String userName) throws Exception;
 }

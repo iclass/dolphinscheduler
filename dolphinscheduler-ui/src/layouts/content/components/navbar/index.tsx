@@ -76,12 +76,12 @@ const Navbar = defineComponent({
             onUpdateValue={this.handleMenuClick}
           />
         </div>
-        <div class={styles.settings}>
+        {/* <div class={styles.settings}>
           <Theme />
           <Locales localesOptions={this.localesOptions} />
           <Timezone timezoneOptions={this.timezoneOptions} />
           <User userDropdownOptions={this.userDropdownOptions} />
-        </div>
+        </div> */}
       </div>
     )
   }

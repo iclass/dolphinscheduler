@@ -117,41 +117,41 @@ export function useTable() {
                   default: () => t('security.tenant.edit')
                 }
               ),
-              h(
-                NPopconfirm,
-                {
-                  onPositiveClick: () => {
-                    handleDelete(row)
-                  }
-                },
-                {
-                  trigger: () =>
-                    h(
-                      NTooltip,
-                      {},
-                      {
-                        trigger: () =>
-                          h(
-                            NButton,
-                            {
-                              circle: true,
-                              type: 'error',
-                              size: 'small',
-                              class: 'delete'
-                            },
-                            {
-                              icon: () =>
-                                h(NIcon, null, {
-                                  default: () => h(DeleteOutlined)
-                                })
-                            }
-                          ),
-                        default: () => t('security.tenant.delete')
-                      }
-                    ),
-                  default: () => t('security.tenant.delete_confirm')
-                }
-              )
+              // h(
+              //   NPopconfirm,
+              //   {
+              //     onPositiveClick: () => {
+              //       handleDelete(row)
+              //     }
+              //   },
+              //   {
+              //     trigger: () =>
+              //       h(
+              //         NTooltip,
+              //         {},
+              //         {
+              //           trigger: () =>
+              //             h(
+              //               NButton,
+              //               {
+              //                 circle: true,
+              //                 type: 'error',
+              //                 size: 'small',
+              //                 class: 'delete'
+              //               },
+              //               {
+              //                 icon: () =>
+              //                   h(NIcon, null, {
+              //                     default: () => h(DeleteOutlined)
+              //                   })
+              //               }
+              //             ),
+              //           default: () => t('security.tenant.delete')
+              //         }
+              //       ),
+              //     default: () => t('security.tenant.delete_confirm')
+              //   }
+              // )
             ]
           })
         }

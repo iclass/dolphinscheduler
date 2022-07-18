@@ -189,39 +189,39 @@ export function useColumns(onCallback: Function) {
                   default: () => t('security.user.edit')
                 }
               ),
-              h(
-                NPopconfirm,
-                {
-                  onPositiveClick: () => void onCallback({ rowData }, 'delete')
-                },
-                {
-                  trigger: () =>
-                    h(
-                      NTooltip,
-                      {},
-                      {
-                        trigger: () =>
-                          h(
-                            NButton,
-                            {
-                              circle: true,
-                              type: 'error',
-                              size: 'small',
-                              class: 'delete'
-                            },
-                            {
-                              icon: () =>
-                                h(NIcon, null, {
-                                  default: () => h(DeleteOutlined)
-                                })
-                            }
-                          ),
-                        default: () => t('security.user.delete')
-                      }
-                    ),
-                  default: () => t('security.user.delete_confirm')
-                }
-              )
+              // h(
+              //   NPopconfirm,
+              //   {
+              //     onPositiveClick: () => void onCallback({ rowData }, 'delete')
+              //   },
+              //   {
+              //     trigger: () =>
+              //       h(
+              //         NTooltip,
+              //         {},
+              //         {
+              //           trigger: () =>
+              //             h(
+              //               NButton,
+              //               {
+              //                 circle: true,
+              //                 type: 'error',
+              //                 size: 'small',
+              //                 class: 'delete'
+              //               },
+              //               {
+              //                 icon: () =>
+              //                   h(NIcon, null, {
+              //                     default: () => h(DeleteOutlined)
+              //                   })
+              //               }
+              //             ),
+              //           default: () => t('security.user.delete')
+              //         }
+              //       ),
+              //     default: () => t('security.user.delete_confirm')
+              //   }
+              // )
             ]
           })
         }

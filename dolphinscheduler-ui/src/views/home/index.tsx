@@ -35,9 +35,8 @@ export default defineComponent({
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = () => {
-      taskStateRef.value = getTaskState(dateRef.value) || taskStateRef.value
-      processStateRef.value =
-        getProcessState(dateRef.value) || processStateRef.value
+      taskStateRef.value = getTaskState(dateRef.value)
+      processStateRef.value = getProcessState(dateRef.value)
     }
 
     const handleTaskDate = (val: any) => {

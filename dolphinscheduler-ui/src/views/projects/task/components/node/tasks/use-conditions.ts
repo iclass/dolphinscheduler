@@ -46,8 +46,7 @@ export function useConditions({
     dependTaskList: [],
     preTasks: [],
     successNode: 'success',
-    failedNode: 'failed',
-    timeoutNotifyStrategy: ['WARN']
+    failedNode: 'failed'
   } as INodeData)
 
   let extra: IJsonItem[] = []

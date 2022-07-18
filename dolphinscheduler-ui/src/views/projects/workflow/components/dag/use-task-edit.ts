@@ -16,7 +16,7 @@
  */
 
 import { ref, onMounted, watch } from 'vue'
-import { remove, cloneDeep } from 'lodash'
+import { remove } from 'lodash'
 import { TaskType } from '@/views/projects/task/constants/task-type'
 import { formatParams } from '@/views/projects/task/components/node/format-data'
 import { useCellUpdate } from './dag-hooks'
@@ -96,7 +96,7 @@ export function useTaskEdit(options: Options) {
     )
 
     const newDefinition = {
-      ...cloneDeep(definition),
+      ...definition,
       code,
       name
     } as NodeData
@@ -174,8 +174,7 @@ export function useTaskEdit(options: Options) {
             ...taskDef,
             version: task.version,
             code: task.code,
-            taskType: currTask.value.taskType,
-            id: task.id
+            taskType: currTask.value.taskType
           }
         }
         return task

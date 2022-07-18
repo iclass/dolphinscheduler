@@ -95,17 +95,6 @@ export default {
         auth: ['ADMIN_USER']
       }
     },
-    // {
-    //   path: '/security/cluster-manage',
-    //   name: 'cluster-manage',
-    //   component: components['security-cluster-manage'],
-    //   meta: {
-    //     title: '集群管理',
-    //     activeMenu: 'security',
-    //     showSide: true,
-    //     auth: ['ADMIN_USER']
-    //   }
-    // },
     {
       path: '/security/token-manage',
       name: 'token-manage',

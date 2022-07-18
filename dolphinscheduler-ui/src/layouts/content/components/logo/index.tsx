@@ -18,7 +18,6 @@
 import { defineComponent } from 'vue'
 import { useThemeStore } from '@/store/theme/theme'
 import styles from './index.module.scss'
-import imgUrl from '@/assets/images/logo_gongshu.png'
 
 const Logo = defineComponent({
   name: 'Logo',
@@ -30,17 +29,11 @@ const Logo = defineComponent({
   render() {
     return (
       <div
-        // class={[
-        //   styles.logo,
-        //   styles[`logo-${this.themeStore.darkTheme ? 'dark' : 'light'}`]
-        // ]}
-        class={styles.logo}
-      > 
-
-          <img src={imgUrl} alt='logo'></img>
-
-          <span>ELT</span>
-        </div>
+        class={[
+          styles.logo,
+          styles[`logo-${this.themeStore.darkTheme ? 'dark' : 'light'}`]
+        ]}
+      />
     )
   }
 })

@@ -28,7 +28,9 @@ import {
 import { SearchOutlined } from '@vicons/antd'
 import { useI18n } from 'vue-i18n'
 import { useTable } from './use-table'
+import Card from '@/components/card'
 import K8sNamespaceModal from './components/k8s-namespace-modal'
+import styles from './index.module.scss'
 
 const k8sNamespaceManage = defineComponent({
   name: 'k8s-namespace-manage',
@@ -101,12 +103,14 @@ const k8sNamespaceManage = defineComponent({
     } = this
 
     return (
-      <NSpace vertical>
-        <NCard size='small'>
-          <NSpace justify='space-between'>
-            <NButton size='small' type='primary' onClick={handleModalChange}>
-              {t('security.k8s_namespace.create_namespace')}
-            </NButton>
+      <div>
+        <NCard>
+          <div class={styles['search-card']}>
+            <div>
+              <NButton size='small' type='primary' onClick={handleModalChange}>
+                {t('security.k8s_namespace.create_namespace')}
+              </NButton>
+            </div>
             <NSpace>
               <NInput
                 size='small'
@@ -124,30 +128,28 @@ const k8sNamespaceManage = defineComponent({
                 }}
               </NButton>
             </NSpace>
-          </NSpace>
+          </div>
         </NCard>
-        <NCard size='small'>
-          <NSpace vertical>
-            <NDataTable
-              loading={loadingRef}
-              columns={this.columns}
-              data={this.tableData}
-              scrollX={this.tableWidth}
+        <Card class={styles['table-card']}>
+          <NDataTable
+            loading={loadingRef}
+            columns={this.columns}
+            data={this.tableData}
+            scrollX={this.tableWidth}
+          />
+          <div class={styles.pagination}>
+            <NPagination
+              v-model:page={this.page}
+              v-model:page-size={this.pageSize}
+              page-count={this.totalPage}
+              show-size-picker
+              page-sizes={[10, 30, 50]}
+              show-quick-jumper
+              onUpdatePage={requestData}
+              onUpdatePageSize={onUpdatePageSize}
             />
-            <NSpace justify='center'>
-              <NPagination
-                v-model:page={this.page}
-                v-model:page-size={this.pageSize}
-                page-count={this.totalPage}
-                show-size-picker
-                page-sizes={[10, 30, 50]}
-                show-quick-jumper
-                onUpdatePage={requestData}
-                onUpdatePageSize={onUpdatePageSize}
-              />
-            </NSpace>
-          </NSpace>
-        </NCard>
+          </div>
+        </Card>
         <K8sNamespaceModal
           showModalRef={this.showModalRef}
           statusRef={this.statusRef}
@@ -155,7 +157,7 @@ const k8sNamespaceManage = defineComponent({
           onCancelModal={onCancelModal}
           onConfirmModal={onConfirmModal}
         />
-      </NSpace>
+      </div>
     )
   }
 })

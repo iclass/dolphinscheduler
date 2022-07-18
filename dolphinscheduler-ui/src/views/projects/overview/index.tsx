@@ -43,9 +43,8 @@ const workflowMonitor = defineComponent({
     }
 
     const initData = () => {
-      taskStateRef.value = getTaskState(dateRef.value) || taskStateRef.value
-      processStateRef.value =
-        getProcessState(dateRef.value) || processStateRef.value
+      taskStateRef.value = getTaskState(dateRef.value)
+      processStateRef.value = getProcessState(dateRef.value)
     }
 
     onMounted(() => {

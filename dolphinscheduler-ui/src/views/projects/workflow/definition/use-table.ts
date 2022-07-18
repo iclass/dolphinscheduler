@@ -70,6 +70,7 @@ export function useTable() {
     variables.columns = [
       {
         type: 'selection',
+        disabled: (row) => row.releaseState === 'ONLINE',
         className: 'btn-selected',
         ...COLUMN_WIDTH_CONFIG['selection']
       },

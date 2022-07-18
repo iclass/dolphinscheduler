@@ -27,13 +27,6 @@ export function queryNamespaceListPaging(params: ListReq): any {
   })
 }
 
-export function getAllNamespaces(): any {
-  return axios({
-    url: '/k8s-namespace/available-list',
-    method: 'get'
-  })
-}
-
 export function verifyNamespaceK8s(params: K8SReq): any {
   return axios({
     url: '/k8s-namespace/verify',

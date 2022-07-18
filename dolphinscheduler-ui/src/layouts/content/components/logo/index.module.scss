@@ -15,23 +15,10 @@
  * limitations under the License.
  */
 
- .logo {
-  width: 270px;
+.logo {
+  width: 180px;
   height: 100%;
-  margin-left: 32px;
-  display: flex;
-  align-items: center;
-
-  span {
-    font-size: 20px;
-    font-weight: 600;
-
-  }
-  img {
-    width: 30px;
-    height: auto;
-    margin: 10px;
-  }
+  margin-left: 12px;
 }
 
 .logo-dark {

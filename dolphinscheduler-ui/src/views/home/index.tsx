@@ -37,21 +37,18 @@ export default defineComponent({
     const processStateRef = ref()
     const router = useRouter()
     const onRefresh = inject<Function>('reload')
-    
+    const userInfoRes = ref()
     const userStore = useUserStore()
     const { getTaskState, taskVariables } = useTaskState()
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = async () => {
-  
-      if (location.href.indexOf("#reloaded") === -1) {
-        location.href = location.href + "#reloaded";
-        location.reload();
-    }
-      const userInfoRes:UserInfoRes = await getUserInfo()
-      await userStore.setUserInfo(userInfoRes)
-      
-      
+      if(localStorage.getItem('user')){
+        if (location.href.indexOf("#reloaded") === -1) {
+          location.href = location.href + "#reloaded";
+          location.reload();
+      }
+      }
       taskStateRef.value = getTaskState(dateRef.value)
       processStateRef.value = getProcessState(dateRef.value)
 
@@ -71,9 +68,10 @@ export default defineComponent({
     })
     watch(() => router.currentRoute.value.path,async (toPath) => {
       //要执行的方法
+      userInfoRes.value = await getUserInfo()
       if(router.currentRoute.value.query.jsessionid){
         userStore.setSessionId(String(router.currentRoute.value.query.jsessionid))
-
+        await userStore.setUserInfo(userInfoRes)
       }
       console.log(router.currentRoute.value)
    },{immediate: true,deep: true})

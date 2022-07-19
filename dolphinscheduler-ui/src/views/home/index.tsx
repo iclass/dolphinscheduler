@@ -43,7 +43,7 @@ export default defineComponent({
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = async () => {
-      const value =  JSON.parse(localStorage.getItem('user'))
+      const value =  JSON.parse(String(localStorage.getItem('user')))
       if(value.userInfo.userType){
         if (location.href.indexOf("#reloaded") === -1) {
           location.href = location.href + "#reloaded";

@@ -25,6 +25,8 @@ import StateCard from './components/state-card'
 import DefinitionCard from './components/definition-card'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user/user'
+import { getUserInfo } from '@/service/modules/users'
+import { async } from '@antv/x6/lib/registry/marker/async'
 
 export default defineComponent({
   name: 'home',
@@ -34,11 +36,14 @@ export default defineComponent({
     const taskStateRef = ref()
     const processStateRef = ref()
     const router = useRouter()
+    
     const userStore = useUserStore()
     const { getTaskState, taskVariables } = useTaskState()
     const { getProcessState, processVariables } = useProcessState()
 
-    const initData = () => {
+    const initData = async () => {
+      const userInfoRes = await getUserInfo()
+      await userStore.setUserInfo(userInfoRes)
       taskStateRef.value = getTaskState(dateRef.value)
       processStateRef.value = getProcessState(dateRef.value)
 
@@ -53,21 +58,19 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      console.log(router.currentRoute.value.path)
       initData()
     })
-    watch(() => router.currentRoute.value.path,(toPath) => {
+    watch(() => router.currentRoute.value.path,async (toPath) => {
       //要执行的方法
       if(router.currentRoute.value.query.jsessionid){
         userStore.setSessionId(String(router.currentRoute.value.query.jsessionid))
 
       }
-      
       console.log(router.currentRoute.value)
    },{immediate: true,deep: true})
     watch(
       () => locale.value,
-      () => initData(),
+      () => initData(), 
     )
 
     return {

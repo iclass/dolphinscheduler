@@ -45,13 +45,7 @@ export default defineComponent({
     const { getTaskState, taskVariables } = useTaskState()
     const { getProcessState, processVariables } = useProcessState()
 
-    const initData = async () => {
-      
-      
-      userInfoRes.value = await getUserInfo()
-      // userInfoRes.value = {"id":1,"userName":"admin","userPassword":"7ad2410b2f4c074479a8937a28a22b8f","email":"xxx@qq.com","phone":"","userType":"ADMIN_USER","tenantId":0,"state":1,"tenantCode":null,"queueName":null,"alertGroup":null,"queue":null,"timeZone":"Asia/Shanghai","createTime":"2018-03-28 04:48:50","updateTime":"2018-10-25 06:40:22","personId":1}
-      await userStore.setUserInfo(userInfoRes.value)
-      
+    const initData = () => {
       
       taskStateRef.value = getTaskState(dateRef.value)
       processStateRef.value = getProcessState(dateRef.value)
@@ -67,29 +61,10 @@ export default defineComponent({
       processStateRef.value = getProcessState(val)
     }
 
-    onMounted(async() => {
+    onMounted(() => {
       
       initData()
     })
-    watch(() => router.currentRoute.value.path,async (toPath) => {
-      //要执行的方法
-      
-      if(router.currentRoute.value.query.jsessionid){
-        userStore.setSessionId(String(router.currentRoute.value.query.jsessionid))
-        
-      }
-      console.log(router.currentRoute.value)
-   },{immediate: true,deep: true})
-   watch(() => value.userInfo.userType,async (toPath) => {
-    //要执行的方法
-    if(value.userInfo.userType){
-      if (location.href.indexOf("#reloaded") === -1) {
-        location.href = location.href + "#reloaded";
-        location.reload();
-    }
-    }
-    console.log(value.userInfo.userType)
- },{immediate: true,deep: true})
     watch(
       () => locale.value,
       () => initData(), 

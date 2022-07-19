@@ -90,8 +90,18 @@ const loginPage: RouteRecordRaw[] = [
     }
   }
 ]
+const transitionPage: RouteRecordRaw[] = [
+  {
+    path: '/transition',
+    name: 'transition',
+    component: components['transition'],
+    meta: {
+      auth: []
+    }
+  }
+]
 
-const routes: RouteRecordRaw[] = [...basePage, ...loginPage]
+const routes: RouteRecordRaw[] = [...basePage, ...loginPage, ...transitionPage]
 
 // 重新组织后导出
 export default routes

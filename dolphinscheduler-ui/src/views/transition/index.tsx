@@ -21,22 +21,36 @@ import { getUserInfo } from '@/service/modules/users'
 import { useRouter } from 'vue-router'
 import type { Router } from 'vue-router'
 import { useRouteStore } from '@/store/route/route'
+import { useMessage } from 'naive-ui'
 const transition = defineComponent({
   name: 'transition',
   setup() {
     const router: Router = useRouter()
     const userStore = useUserStore()
       const userInfoRes = ref()
+      const message = useMessage()
       // const routeStore = useRouteStore()
     const initData = async () => {
       console.log('执行')
       userInfoRes.value = await getUserInfo()
+      
             // userInfoRes.value = {"id":1,"userName":"admin","userPassword":"7ad2410b2f4c074479a8937a28a22b8f","email":"xxx@qq.com","phone":"","userType":"ADMIN_USER","tenantId":0,"state":1,"tenantCode":null,"queueName":null,"alertGroup":null,"queue":null,"timeZone":"Asia/Shanghai","createTime":"2018-03-28 04:48:50","updateTime":"2018-10-25 06:40:22","personId":1}
-      console.log('35',userInfoRes.value)
       await userStore.setUserInfo(userInfoRes.value)
       // const path = routeStore.lastRoute
+      console.log(userInfoRes.value.id)
+      if(userInfoRes.value.id){
+        router.push({ path: 'home' })
 
-      router.push({ path: 'home' })
+      }else{
+        message.error('用户已被停用,不能使用ETL工具')
+        setTimeout(()=>{
+          router.push({ path: 'login' })
+
+        },3000)
+        
+      }
+
+      
     }
     watch(() => router.currentRoute.value.path,async () => {
       //要执行的方法

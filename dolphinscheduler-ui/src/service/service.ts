@@ -64,11 +64,7 @@ const err = (err: AxiosError): Promise<AxiosError> => {
   if (err.response?.status === 401 || err.response?.status === 504) {
     userStore.setSessionId('')
     userStore.setUserInfo({})
-    message.error('用户已被停用,不能使用ETL工具')
-    setTimeout(() => {
-      router.push({ path: 'login' })
-    }, 3000)
-    // router.push({ path: '/login' })
+    router.push({ path: '/login' })
   }
 
   return Promise.reject(err)

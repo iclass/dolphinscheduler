@@ -39,7 +39,7 @@ public class CasUserDetailService implements AuthenticationUserDetailsService {
         userVO.setAccount((String) attributes.get("account"));
         userVO.setStatus(Integer.parseInt((String) attributes.get("status")));
         userVO.setUsername(principal.getName());
-        userVO.setAuthorities(AuthorityUtils.createAuthorityList("user"));
+        userVO.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_user"));
         return userVO;
     }
 }

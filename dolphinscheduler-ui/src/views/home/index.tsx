@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { defineComponent, onMounted, ref, toRefs, watch } from 'vue'
+import { defineComponent, inject, onMounted, ref, toRefs, watch } from 'vue'
 import { NGrid, NGi } from 'naive-ui'
 import { startOfToday, getTime } from 'date-fns'
 import { useI18n } from 'vue-i18n'
@@ -26,7 +26,7 @@ import DefinitionCard from './components/definition-card'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user/user'
 import { getUserInfo } from '@/service/modules/users'
-import { async } from '@antv/x6/lib/registry/marker/async'
+import { UserInfoRes } from '@/service/modules/users/types'
 
 export default defineComponent({
   name: 'home',
@@ -36,16 +36,24 @@ export default defineComponent({
     const taskStateRef = ref()
     const processStateRef = ref()
     const router = useRouter()
-    
+    const onRefresh = inject<Function>('reload')
+    const userInfoRes = ref()
     const userStore = useUserStore()
+    const value =  JSON.parse(String(localStorage.getItem('user')))
     const { getTaskState, taskVariables } = useTaskState()
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = async () => {
-      const userInfoRes = await getUserInfo()
+      
+      // if(value.userInfo.userType){
+        
+      // }
+      userInfoRes.value = await getUserInfo()
       await userStore.setUserInfo(userInfoRes)
+      
       taskStateRef.value = getTaskState(dateRef.value)
       processStateRef.value = getProcessState(dateRef.value)
+
 
     }
 
@@ -57,17 +65,27 @@ export default defineComponent({
       processStateRef.value = getProcessState(val)
     }
 
-    onMounted(() => {
+    onMounted(async() => {
+      
       initData()
     })
     watch(() => router.currentRoute.value.path,async (toPath) => {
       //要执行的方法
+      
       if(router.currentRoute.value.query.jsessionid){
         userStore.setSessionId(String(router.currentRoute.value.query.jsessionid))
-
+        
       }
       console.log(router.currentRoute.value)
    },{immediate: true,deep: true})
+   watch(() => value.userInfo.userType,async (toPath) => {
+    //要执行的方法
+    if (location.href.indexOf("#reloaded") === -1) {
+      location.href = location.href + "#reloaded";
+      location.reload();
+  }
+    console.log(value.userInfo.userType)
+ },{immediate: true,deep: true})
     watch(
       () => locale.value,
       () => initData(), 
@@ -76,6 +94,7 @@ export default defineComponent({
     return {
       t,
       dateRef,
+      onRefresh,
       handleTaskDate,
       handleProcessDate,
       taskStateRef,
@@ -127,3 +146,4 @@ export default defineComponent({
     )
   }
 })
+

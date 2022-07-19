@@ -101,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/sso/**").authenticated()
-                .antMatchers("/**").permitAll()
+//                .antMatchers("/**").permitAll()
 //                .antMatchers("/swagger-resources/**").permitAll()
 //                .antMatchers("/v2/**").permitAll()
 //                .antMatchers("/swagger-ui.html").permitAll()
@@ -109,7 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/ui/**").permitAll()
 //                .antMatchers("/error").permitAll()
 //                .antMatchers("/login/cas").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .httpBasic()
                 .and()

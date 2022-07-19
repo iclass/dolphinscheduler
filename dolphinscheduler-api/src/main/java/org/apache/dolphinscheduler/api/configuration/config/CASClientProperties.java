@@ -9,7 +9,7 @@ public class CASClientProperties {
     private String logoutRelative = "/dolphinscheduler/logout/cas";
     private String logout = "http://112.17.252.162:30227/dolphinscheduler/logout/cas";
 
-    private String frontUrl = "http://112.17.252.162:30227/dolphinscheduler/ui";
+    private String frontUrl = "http://112.17.252.162:30227/dolphinscheduler/ui/transition";
 
     public String getPrefix() {
         return prefix;

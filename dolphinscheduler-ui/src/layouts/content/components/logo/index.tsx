@@ -19,21 +19,31 @@ import { defineComponent } from 'vue'
 import { useThemeStore } from '@/store/theme/theme'
 import styles from './index.module.scss'
 import imgUrl from '@/assets/images/logo_gongshu.png'
+import { useRoute, useRouter } from 'vue-router'
+
 
 const Logo = defineComponent({
   name: 'Logo',
   setup() {
-    const themeStore = useThemeStore()
+    const route = useRoute()
+    const router = useRouter()
 
-    return { themeStore }
+    const themeStore = useThemeStore()
+    const onClick = () => {
+      router.push({ path: `/home` })
+    }
+
+    return { themeStore, onClick }
   },
   render() {
+    const {onClick} = this
     return (
       <div
         // class={[
         //   styles.logo,
         //   styles[`logo-${this.themeStore.darkTheme ? 'dark' : 'light'}`]
         // ]}
+        onClick={onClick}
         class={styles.logo}
       > 
 

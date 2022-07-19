@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/sso/**").denyAll()
+                .antMatchers("/sso/**").authenticated()
                 .antMatchers("/**").permitAll()
 //                .antMatchers("/swagger-resources/**").permitAll()
 //                .antMatchers("/v2/**").permitAll()

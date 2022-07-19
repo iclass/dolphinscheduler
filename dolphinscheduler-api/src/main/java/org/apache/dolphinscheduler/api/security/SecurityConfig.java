@@ -99,8 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/user/**")
-                .hasRole("user")
+        http.authorizeRequests()
                 .antMatchers("/doc.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
@@ -111,6 +110,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/cas").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .httpBasic()
+                .and()
+                .csrf()
+                .disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()

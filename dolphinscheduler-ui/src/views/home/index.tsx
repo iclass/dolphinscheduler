@@ -43,12 +43,16 @@ export default defineComponent({
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = async () => {
-      if(localStorage.getItem('user')){
+      const value =  JSON.parse(localStorage.getItem('user'))
+      if(value.userInfo.userType){
         if (location.href.indexOf("#reloaded") === -1) {
           location.href = location.href + "#reloaded";
           location.reload();
       }
       }
+      userInfoRes.value = await getUserInfo()
+      await userStore.setUserInfo(userInfoRes)
+      
       taskStateRef.value = getTaskState(dateRef.value)
       processStateRef.value = getProcessState(dateRef.value)
 
@@ -63,7 +67,8 @@ export default defineComponent({
       processStateRef.value = getProcessState(val)
     }
 
-    onMounted(() => {
+    onMounted(async() => {
+      
       initData()
     })
     watch(() => router.currentRoute.value.path,async (toPath) => {
@@ -71,8 +76,7 @@ export default defineComponent({
       
       if(router.currentRoute.value.query.jsessionid){
         userStore.setSessionId(String(router.currentRoute.value.query.jsessionid))
-        userInfoRes.value = await getUserInfo()
-        await userStore.setUserInfo(userInfoRes)
+        
       }
       console.log(router.currentRoute.value)
    },{immediate: true,deep: true})

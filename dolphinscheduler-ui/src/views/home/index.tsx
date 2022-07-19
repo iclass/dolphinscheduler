@@ -68,9 +68,10 @@ export default defineComponent({
     })
     watch(() => router.currentRoute.value.path,async (toPath) => {
       //要执行的方法
-      userInfoRes.value = await getUserInfo()
+      
       if(router.currentRoute.value.query.jsessionid){
         userStore.setSessionId(String(router.currentRoute.value.query.jsessionid))
+        userInfoRes.value = await getUserInfo()
         await userStore.setUserInfo(userInfoRes)
       }
       console.log(router.currentRoute.value)

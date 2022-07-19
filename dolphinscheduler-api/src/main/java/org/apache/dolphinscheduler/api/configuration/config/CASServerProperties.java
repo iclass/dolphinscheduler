@@ -4,9 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "cas.server")
 public class CASServerProperties {
-    private String prefix = "http://112.17.252.162:31477";
-    private String login = "http://112.17.252.162:31477/login";
-    private String logout = "http://112.17.252.162:31477/logout";
+    private String prefix = "https://tianyin-dw-test-cas.iclass.cn";
+    private String login = "https://tianyin-dw-test-cas.iclass.cn/login";
+    private String logout = "https://tianyin-dw-test-cas.iclass.cn/logout";
 
     public String getPrefix() {
         return prefix;

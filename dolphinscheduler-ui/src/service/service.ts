@@ -22,10 +22,8 @@ import _ from 'lodash'
 import cookies from 'js-cookie'
 import router from '@/router'
 import utils from '@/utils'
-import { useMessage } from 'naive-ui'
 
 const userStore = useUserStore()
-const message = useMessage()
 
 /**
  * @description Log and display errors
@@ -64,7 +62,7 @@ const err = (err: AxiosError): Promise<AxiosError> => {
   if (err.response?.status === 401 || err.response?.status === 504) {
     userStore.setSessionId('')
     userStore.setUserInfo({})
-    router.push({ path: '/login' })
+    router.push({ path: '/forError' })
   }
 
   return Promise.reject(err)

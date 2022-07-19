@@ -39,17 +39,15 @@ export default defineComponent({
     const onRefresh = inject<Function>('reload')
     const userInfoRes = ref()
     const userStore = useUserStore()
+    const value =  JSON.parse(String(localStorage.getItem('user')))
     const { getTaskState, taskVariables } = useTaskState()
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = async () => {
-      const value =  JSON.parse(String(localStorage.getItem('user')))
-      if(value.userInfo.userType){
-        if (location.href.indexOf("#reloaded") === -1) {
-          location.href = location.href + "#reloaded";
-          location.reload();
-      }
-      }
+      
+      // if(value.userInfo.userType){
+        
+      // }
       userInfoRes.value = await getUserInfo()
       await userStore.setUserInfo(userInfoRes)
       
@@ -80,6 +78,14 @@ export default defineComponent({
       }
       console.log(router.currentRoute.value)
    },{immediate: true,deep: true})
+   watch(() => value.userInfo.userType,async (toPath) => {
+    //要执行的方法
+    if (location.href.indexOf("#reloaded") === -1) {
+      location.href = location.href + "#reloaded";
+      location.reload();
+  }
+    console.log(value.userInfo.userType)
+ },{immediate: true,deep: true})
     watch(
       () => locale.value,
       () => initData(), 

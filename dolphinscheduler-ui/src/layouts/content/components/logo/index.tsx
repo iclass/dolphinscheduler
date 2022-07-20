@@ -30,7 +30,8 @@ const Logo = defineComponent({
 
     const themeStore = useThemeStore()
     const onClick = () => {
-      router.push({ path: `/home` })
+      const jumpPath = import.meta.env.VITE_DATACENTER_URL
+      window.location.href = jumpPath
     }
 
     return { themeStore, onClick }

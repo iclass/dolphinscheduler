@@ -30,7 +30,9 @@ const Logo = defineComponent({
 
     const themeStore = useThemeStore()
     const onClick = () => {
+
       const jumpPath = import.meta.env.VITE_DATACENTER_URL
+      console.log("测试跳转路径:",jumpPath)
       window.location.href = jumpPath
     }
 

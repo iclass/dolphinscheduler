@@ -14,6 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+cas:
+  client:
+    prefix: http://112.17.252.162:30227
+    login: http://112.17.252.162:30227/dolphinscheduler/login/cas
+    logoutRelative: /dolphinscheduler/logout/cas
+    logout: http://112.17.252.162:30227/dolphinscheduler/logout/cas
+    frontUrl: http://112.17.252.162:30227/dolphinscheduler/ui/transition
+  server:
+    prefix: https://tianyin-dw-test-cas.iclass.cn
+    login: https://tianyin-dw-test-cas.iclass.cn/login
+    logout: https://tianyin-dw-test-cas.iclass.cn/logout
 
 server:
   port: 12345
@@ -143,7 +154,6 @@ security:
       password: password
       user.identity.attribute: uid
       user.email.attribute: mail
-
 # Override by profile
 
 ---

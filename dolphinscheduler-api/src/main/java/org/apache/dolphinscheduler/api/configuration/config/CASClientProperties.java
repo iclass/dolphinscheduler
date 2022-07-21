@@ -4,12 +4,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "cas.client")
 public class CASClientProperties {
-    private String prefix = "http://112.17.252.162:30227";
-    private String login = "http://112.17.252.162:30227/dolphinscheduler/login/cas";
-    private String logoutRelative = "/dolphinscheduler/logout/cas";
-    private String logout = "http://112.17.252.162:30227/dolphinscheduler/logout/cas";
+    private String prefix;
+    private String login;
+    private String logoutRelative;
+    private String logout;
 
-    private String frontUrl = "http://112.17.252.162:30227/dolphinscheduler/ui/transition";
+    private String frontUrl;
 
     public String getPrefix() {
         return prefix;

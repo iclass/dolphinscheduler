@@ -202,6 +202,17 @@ audit:
 metrics:
   enabled: true
 
+cas:
+  client:
+    prefix: http://112.17.252.162:30227
+    login: http://112.17.252.162:30227/dolphinscheduler/login/cas
+    logoutRelative: /dolphinscheduler/logout/cas
+    logout: http://112.17.252.162:30227/dolphinscheduler/logout/cas
+    frontUrl: http://112.17.252.162:30227/dolphinscheduler/ui/transition
+  server:
+    prefix: https://tianyin-dw-test-cas.iclass.cn
+    login: https://tianyin-dw-test-cas.iclass.cn/login
+    logout: https://tianyin-dw-test-cas.iclass.cn/logout
 # Override by profile
 ---
 spring:
@@ -216,7 +227,6 @@ spring:
     url: jdbc:postgresql://127.0.0.1:5432/dolphinscheduler
     username: root
     password: root
-
 ---
 spring:
   config:

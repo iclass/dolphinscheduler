@@ -47,6 +47,9 @@ public class SSOController extends BaseController{
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    private CASClientProperties casClientProperties;
+
     @GetMapping("/casLogin")
     @ApiOperation(value = "登录跳转页")
     @Transactional(rollbackFor = RuntimeException.class)
@@ -67,7 +70,7 @@ public class SSOController extends BaseController{
         }
         Assertion assertion = authentication.getAssertion();
         if (assertion != null) {
-            response.sendRedirect(new CASClientProperties().getFrontUrl()+"?jsessionid="+jsessionid);
+            response.sendRedirect(casClientProperties.getFrontUrl()+"?jsessionid="+jsessionid);
         }
     }
 }

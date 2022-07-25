@@ -37,15 +37,18 @@ export function useLogin(state: any) {
         const loginRes: SessionIdRes = await login({ ...state.loginForm })
         await userStore.setSessionId(loginRes.sessionId)
 
+        
+
         const userInfoRes: UserInfoRes = await getUserInfo()
         await userStore.setUserInfo(userInfoRes)
+        router.push({ path: '/home' })
 
         const timezone = userInfoRes.timeZone ? userInfoRes.timeZone : 'UTC'
         await timezoneStore.setTimezone(timezone)
 
         const path = routeStore.lastRoute
         window.console.log(path)
-        router.push({ path: '/home' })
+        
       }
     })
   }

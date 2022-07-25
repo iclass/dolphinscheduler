@@ -88,6 +88,14 @@ const loginPage: RouteRecordRaw[] = [
     meta: {
       auth: []
     }
+  },
+  {
+    path: '/forError',
+    name: 'forError',
+    component: components['forError'],
+    meta: {
+      auth: []
+    }
   }
 ]
 const transitionPage: RouteRecordRaw[] = [
@@ -100,18 +108,8 @@ const transitionPage: RouteRecordRaw[] = [
     }
   }
 ]
-const errorPage: RouteRecordRaw[] = [
-  {
-    path: '/forError',
-    name: 'forError',
-    component: components['forError'],
-    meta: {
-      auth: []
-    }
-  }
-]
 
-const routes: RouteRecordRaw[] = [...basePage, ...loginPage, ...transitionPage, ...errorPage]
+const routes: RouteRecordRaw[] = [...basePage, ...loginPage, ...transitionPage]
 
 // 重新组织后导出
 export default routes

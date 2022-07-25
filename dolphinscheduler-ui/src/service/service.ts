@@ -31,16 +31,20 @@ const userStore = useUserStore()
  */
 const handleError = (res: AxiosResponse<any, any>) => {
   // Print to console
-  if (import.meta.env.MODE === 'development') {
+  if (
+    import.meta.env.MODE === 'development' ||
+    import.meta.env.MODE === 'devtaizhou'
+  ) {
     utils.log.capsule('DolphinScheduler', 'UI')
     utils.log.error(res)
   }
   window.$message.error(res.data.msg)
 }
-
+window.console.log(import.meta.env)
 const baseRequestConfig: AxiosRequestConfig = {
   baseURL:
-    import.meta.env.MODE === 'development'
+    import.meta.env.MODE === 'development' ||
+    import.meta.env.MODE === 'devtaizhou'
       ? import.meta.env.VITE_APP_DEV_WEB_URL + '/dolphinscheduler'
       : import.meta.env.VITE_APP_PROD_WEB_URL + '/dolphinscheduler',
   timeout: 15000,

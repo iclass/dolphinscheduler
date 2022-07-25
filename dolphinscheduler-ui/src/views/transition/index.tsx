@@ -31,8 +31,6 @@ const transition = defineComponent({
       const message = useMessage()
       // const routeStore = useRouteStore()
     const initData = async () => {
-      console.log('执行')
-     
       userInfoRes.value = await getUserInfo()
       console.log(userInfoRes.value.id)
             // userInfoRes.value = {"id":1,"userName":"admin","userPassword":"7ad2410b2f4c074479a8937a28a22b8f","email":"xxx@qq.com","phone":"","userType":"ADMIN_USER","tenantId":0,"state":1,"tenantCode":null,"queueName":null,"alertGroup":null,"queue":null,"timeZone":"Asia/Shanghai","createTime":"2018-03-28 04:48:50","updateTime":"2018-10-25 06:40:22","personId":1}
@@ -53,7 +51,6 @@ const transition = defineComponent({
       console.log(router.currentRoute.value)
    },{immediate: true,deep: true})
     onMounted(() => {
-      console.log('执行1')
       initData()
     })
 

@@ -31,7 +31,6 @@ const forError = defineComponent({
       const message = useMessage()
       // const routeStore = useRouteStore()
     const initData = async () => {
-      console.log('执行')
         message.error('用户已被停用,不能使用ETL工具')
         setTimeout(()=>{
           router.push({ path: 'login' })

@@ -18,6 +18,7 @@
 package org.apache.dolphinscheduler.api.service;
 
 import org.apache.dolphinscheduler.api.utils.Result;
+import org.apache.dolphinscheduler.dao.entity.Queue;
 import org.apache.dolphinscheduler.dao.entity.User;
 
 import java.util.Map;
@@ -84,4 +85,11 @@ public interface QueueService {
      */
     Map<String, Object> queryQueueName(String queueName);
 
+    /**
+     * create queue by sso
+     * @param queue
+     * @param queueName
+     * @return
+     */
+    public Queue createSSOQueue(String queue, String queueName);
 }

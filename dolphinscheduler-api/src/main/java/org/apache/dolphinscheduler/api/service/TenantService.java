@@ -114,5 +114,5 @@ public interface TenantService {
      *
      * @param userName
      */
-    Integer createSSOTenant(String userName) throws Exception;
+    Integer createSSOTenant(String userName,Integer queueId) throws Exception;
 }

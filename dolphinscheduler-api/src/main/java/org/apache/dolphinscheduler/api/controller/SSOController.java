@@ -1,24 +1,19 @@
 package org.apache.dolphinscheduler.api.controller;
 
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
 import org.apache.dolphinscheduler.api.configuration.config.CASClientProperties;
 import org.apache.dolphinscheduler.api.configuration.config.UserVO;
+import org.apache.dolphinscheduler.api.service.QueueService;
 import org.apache.dolphinscheduler.api.service.SessionService;
 import org.apache.dolphinscheduler.api.service.TenantService;
 import org.apache.dolphinscheduler.api.service.UsersService;
+import org.apache.dolphinscheduler.dao.entity.Queue;
 import org.apache.dolphinscheduler.dao.entity.User;
-import org.apache.dolphinscheduler.dao.mapper.SessionMapper;
 import org.apache.dolphinscheduler.dao.mapper.UserMapper;
-import org.jasig.cas.client.authentication.AttributePrincipal;
-import org.jasig.cas.client.util.AbstractCasFilter;
 import org.jasig.cas.client.validation.Assertion;
-import org.jasig.cas.client.validation.AssertionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
-import static org.apache.dolphinscheduler.api.enums.Status.IP_IS_EMPTY;
 
 @RestController
 @RequestMapping("/sso")
@@ -50,9 +42,12 @@ public class SSOController extends BaseController{
     @Autowired
     private CASClientProperties casClientProperties;
 
+    @Autowired
+    private QueueService queueService;
+
     @GetMapping("/casLogin")
     @ApiOperation(value = "登录跳转页")
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional(rollbackFor = Exception.class)
     public void casLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         CasAuthenticationToken authentication = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserVO userVO = (UserVO)authentication.getPrincipal();
@@ -63,9 +58,10 @@ public class SSOController extends BaseController{
             //执行登录
             sessionService.createSSOSession(jsessionid,user.getId(),ip);
         }else{
-            //创建租户及用户并登陆
-            Integer tenantId = tenantService.createSSOTenant(userVO.getUsername());
-            User createUser = usersService.createSSOUser(userVO.getUsername(),"",userVO.getEmail(),tenantId,userVO.getPhone(),"default",1,userVO.getUserId());
+            //创建队列、租户、用户并登陆
+            Queue queue = queueService.createSSOQueue(userVO.getUsername(),userVO.getUsername());
+            Integer tenantId = tenantService.createSSOTenant(userVO.getUsername(),queue.getId());
+            User createUser = usersService.createSSOUser(userVO.getUsername(),"ab123456",userVO.getEmail(),tenantId,userVO.getPhone(),queue.getQueue(),1,userVO.getUserId());
             sessionService.createSSOSession(jsessionid,createUser.getId(),ip);
         }
         Assertion assertion = authentication.getAssertion();

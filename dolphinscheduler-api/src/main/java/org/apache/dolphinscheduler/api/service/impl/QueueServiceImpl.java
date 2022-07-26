@@ -157,6 +157,20 @@ public class QueueServiceImpl extends BaseServiceImpl implements QueueService {
         return result;
     }
 
+    @Override
+    public Queue createSSOQueue(String queue, String queueName) {
+        Queue queueObj = new Queue();
+        Date now = new Date();
+
+        queueObj.setQueue(queue);
+        queueObj.setQueueName(queueName);
+        queueObj.setCreateTime(now);
+        queueObj.setUpdateTime(now);
+
+        queueMapper.insert(queueObj);
+        return queueObj;
+    }
+
     /**
      * update queue
      *

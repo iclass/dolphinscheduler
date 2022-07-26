@@ -83,7 +83,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
         // check user state
         if (user.getState() == Flag.NO.ordinal()) {
-            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            response.setStatus(HttpStatus.SC_FORBIDDEN);
             logger.info(Status.USER_DISABLED.getMsg());
             return false;
         }

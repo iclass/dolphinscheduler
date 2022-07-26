@@ -62,7 +62,10 @@ const err = (err: AxiosError): Promise<AxiosError> => {
   if (err.response?.status === 401 || err.response?.status === 504) {
     userStore.setSessionId('')
     userStore.setUserInfo({})
-    window.console.log('111', err, err.response?.status)
+    router.push({ path: '/login' })
+  } else if (err.response?.status === 403) {
+    userStore.setSessionId('')
+    userStore.setUserInfo({})
     router.push({ path: '/forError' })
   }
 

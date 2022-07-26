@@ -351,11 +351,11 @@ public class TenantServiceImpl extends BaseServiceImpl implements TenantService 
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer createSSOTenant(String userName) throws Exception {
+    public Integer createSSOTenant(String userName,Integer queueId) throws Exception {
         Tenant tenant = new Tenant();
         Date now = new Date();
         tenant.setTenantCode(userName);
-        tenant.setQueueId(1);
+        tenant.setQueueId(queueId);
         tenant.setCreateTime(now);
         tenant.setUpdateTime(now);
         // save

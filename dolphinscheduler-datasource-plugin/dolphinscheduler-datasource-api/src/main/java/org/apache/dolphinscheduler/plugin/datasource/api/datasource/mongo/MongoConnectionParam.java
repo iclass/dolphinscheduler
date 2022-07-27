@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.dolphinscheduler.plugin.datasource.api.datasource.mysql;
+package org.apache.dolphinscheduler.plugin.datasource.api.datasource.mongo;
 
 import org.apache.dolphinscheduler.spi.datasource.BaseConnectionParam;
 
-public class MySQLConnectionParam extends BaseConnectionParam {
+public class MongoConnectionParam extends BaseConnectionParam {
     @Override
     public String toString() {
         return "MongoConnectionParam{"

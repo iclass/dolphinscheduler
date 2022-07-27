@@ -101,11 +101,15 @@ public class DataSourceServiceImpl extends BaseServiceImpl implements DataSource
         }
         // check connect
         ConnectionParam connectionParam = DataSourceUtils.buildConnectionParams(datasourceParam);
-        Result<Object> isConnection = checkConnection(datasourceParam.getType(), connectionParam);
-        if (Status.SUCCESS.getCode() != isConnection.getCode()) {
-            putMsg(result, Status.DATASOURCE_CONNECT_FAILED);
-            return result;
+
+        if(!datasourceParam.getType().equals(DbType.MONGODB)){
+            Result<Object> isConnection = checkConnection(datasourceParam.getType(), connectionParam);
+            if (Status.SUCCESS.getCode() != isConnection.getCode()) {
+                putMsg(result, Status.DATASOURCE_CONNECT_FAILED);
+                return result;
+            }
         }
+
 
         // build datasource
         DataSource dataSource = new DataSource();

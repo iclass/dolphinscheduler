@@ -24,7 +24,7 @@ public class MySQLDataSourceParamDTO extends BaseDataSourceParamDTO {
 
     @Override
     public String toString() {
-        return "MySQLDataSourceParamDTO{"
+        return "MongoDataSourceParamDTO{"
                 + "name='" + name + '\''
                 + ", note='" + note + '\''
                 + ", host='" + host + '\''

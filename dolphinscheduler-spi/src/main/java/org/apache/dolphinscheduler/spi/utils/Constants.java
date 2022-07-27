@@ -17,8 +17,6 @@
 
 package org.apache.dolphinscheduler.spi.utils;
 
-import com.mysql.cj.*;
-import com.mongodb.*;
 /**
  * constants
  */

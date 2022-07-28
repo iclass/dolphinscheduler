@@ -20,6 +20,7 @@ package org.apache.dolphinscheduler.plugin.datasource.api.datasource;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.clickhouse.ClickHouseDataSourceParamDTO;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.db2.Db2DataSourceParamDTO;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.hive.HiveDataSourceParamDTO;
+import org.apache.dolphinscheduler.plugin.datasource.api.datasource.mongo.MongoDataSourceParamDTO;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.mysql.MySQLDataSourceParamDTO;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.oracle.OracleDataSourceParamDTO;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.postgresql.PostgreSQLDataSourceParamDTO;
@@ -61,6 +62,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = Db2DataSourceParamDTO.class, name = "DB2"),
     @JsonSubTypes.Type(value = PrestoDataSourceParamDTO.class, name = "PRESTO"),
     @JsonSubTypes.Type(value = RedshiftDataSourceParamDTO.class, name = "REDSHIFT"),
+    @JsonSubTypes.Type(value = MongoDataSourceParamDTO.class, name = "MONGODB"),
+
 })
 public abstract class BaseDataSourceParamDTO implements Serializable {
 

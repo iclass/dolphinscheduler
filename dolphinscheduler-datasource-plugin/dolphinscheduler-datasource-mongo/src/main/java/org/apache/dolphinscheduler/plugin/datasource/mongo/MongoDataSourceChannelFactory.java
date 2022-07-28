@@ -15,23 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.dolphinscheduler.plugin.datasource.api.datasource.mysql;
+package org.apache.dolphinscheduler.plugin.datasource.mongo;
 
-import org.apache.dolphinscheduler.spi.datasource.BaseConnectionParam;
+import com.google.auto.service.AutoService;
+import org.apache.dolphinscheduler.spi.datasource.DataSourceChannel;
+import org.apache.dolphinscheduler.spi.datasource.DataSourceChannelFactory;
 
-public class MySQLConnectionParam extends BaseConnectionParam {
+@AutoService(DataSourceChannelFactory.class)
+public class MongoDataSourceChannelFactory implements DataSourceChannelFactory {
     @Override
-    public String toString() {
-        return "MongoConnectionParam{"
-                + "user='" + user + '\''
-                + ", password='" + password + '\''
-                + ", address='" + address + '\''
-                + ", database='" + database + '\''
-                + ", jdbcUrl='" + jdbcUrl + '\''
-                + ", driverLocation='" + driverLocation + '\''
-                + ", driverClassName='" + driverClassName + '\''
-                + ", validationQuery='" + validationQuery + '\''
-                + ", other='" + other + '\''
-                + '}';
+    public String getName() {
+        return "mongo";
+    }
+
+    @Override
+    public DataSourceChannel create() {
+        return new MongoDataSourceChannel();
     }
 }

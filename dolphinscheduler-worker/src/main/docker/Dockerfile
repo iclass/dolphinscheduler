@@ -33,6 +33,13 @@ RUN wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.16/mysql-
 
 RUN cp mysql-connector-java-8.0.16.jar /opt/dolphinscheduler/lib
 
+RUN wget https://aiban-generic.pkg.coding.net/tianyin/datax/target/datax.tar.gz?version=latest
+
+RUN tar -zxvf datax.tar.gz -C /opt/soft/
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python3-pip && \
+    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 1235
 

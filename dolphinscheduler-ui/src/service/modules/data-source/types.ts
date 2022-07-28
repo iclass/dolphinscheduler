@@ -17,6 +17,7 @@
 
 type IDataBase =
   | 'MYSQL'
+  | 'MONGODB'
   | 'POSTGRESQL'
   | 'HIVE'
   | 'SPARK'

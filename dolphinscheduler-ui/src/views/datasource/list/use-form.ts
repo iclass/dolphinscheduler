@@ -125,6 +125,7 @@ export function useForm(id?: number) {
   const changeType = async (type: IDataBase, options: IDataBaseOption) => {
     state.detailForm.port = options.previousPort || options.defaultPort
     state.detailForm.type = type
+    window.console.log(state)
 
     if (type === 'ORACLE' && !id) {
       state.detailForm.connectType = 'ORACLE_SERVICE_NAME'
@@ -174,6 +175,11 @@ const datasourceType: IDataBaseOptionKeys = {
     value: 'MYSQL',
     label: 'MYSQL',
     defaultPort: 3306
+  },
+  MONGODB: {
+    value: 'MONGODB',
+    label: 'MONGODB',
+    defaultPort: 27017
   },
   POSTGRESQL: {
     value: 'POSTGRESQL',

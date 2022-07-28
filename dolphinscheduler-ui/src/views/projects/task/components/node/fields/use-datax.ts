@@ -69,6 +69,11 @@ export function useDataX(model: { [field: string]: any }): IJsonItem[] {
       id: 8,
       code: 'PRESTO',
       disabled: true
+    },
+    {
+      id: 9,
+      code: 'MONGODB',
+      disabled: false
     }
   ]
   const datasourceTypeOptions = ref([] as any)
@@ -153,6 +158,7 @@ export function useDataX(model: { [field: string]: any }): IJsonItem[] {
   const getDatasourceTypes = async () => {
     if (loading.value) return
     loading.value = true
+    window.console.log(datasourceTypes)
     datasourceTypeOptions.value = datasourceTypes
       .filter((item) => !item.disabled)
       .map((item) => ({ label: item.code, value: item.code }))

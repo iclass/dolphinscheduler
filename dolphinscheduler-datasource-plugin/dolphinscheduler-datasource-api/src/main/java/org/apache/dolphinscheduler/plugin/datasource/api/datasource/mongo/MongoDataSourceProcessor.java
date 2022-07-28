@@ -17,8 +17,6 @@
 
 package org.apache.dolphinscheduler.plugin.datasource.api.datasource.mongo;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.AbstractDataSourceProcessor;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.BaseDataSourceParamDTO;

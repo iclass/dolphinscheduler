@@ -17,7 +17,6 @@
 
 package org.apache.dolphinscheduler.plugin.datasource.api.utils;
 
-import com.mongodb.MongoDriverInformation;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.BaseDataSourceParamDTO;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.DataSourceProcessor;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.clickhouse.ClickHouseDataSourceProcessor;

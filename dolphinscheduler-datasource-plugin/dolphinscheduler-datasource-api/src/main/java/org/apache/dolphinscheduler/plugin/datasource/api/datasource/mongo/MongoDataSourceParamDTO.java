@@ -38,6 +38,6 @@ public class MongoDataSourceParamDTO extends BaseDataSourceParamDTO {
 
     @Override
     public DbType getType() {
-        return DbType.MYSQL;
+        return DbType.MONGODB;
     }
 }

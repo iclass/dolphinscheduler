@@ -17,10 +17,10 @@
 cas:
   client:
     prefix: http://localhost:12345
-    login: http://localhost:12345/elt/login/cas
-    logoutRelative: /elt/logout/cas
-    logout: http://localhost:12345/elt/logout/cas
-    frontUrl: http://localhost:12345/elt/ui/transition
+    login: http://localhost:12345/etl/login/cas
+    logoutRelative: /etl/logout/cas
+    logout: http://localhost:12345/etl/logout/cas
+    frontUrl: http://localhost:12345/etl/ui/transition
   server:
     prefix: https://tianyin-dw-test-cas.iclass.cn
     login: https://tianyin-dw-test-cas.iclass.cn/login
@@ -31,7 +31,7 @@ server:
   servlet:
     session:
       timeout: 120m
-    context-path: /elt/
+    context-path: /etl/
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,application/xml

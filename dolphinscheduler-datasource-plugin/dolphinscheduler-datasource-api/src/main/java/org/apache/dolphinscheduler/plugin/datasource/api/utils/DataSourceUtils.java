@@ -22,6 +22,7 @@ import org.apache.dolphinscheduler.plugin.datasource.api.datasource.DataSourcePr
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.clickhouse.ClickHouseDataSourceProcessor;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.db2.Db2DataSourceProcessor;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.hive.HiveDataSourceProcessor;
+import org.apache.dolphinscheduler.plugin.datasource.api.datasource.mongo.MongoDataSourceProcessor;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.mysql.MySQLDataSourceProcessor;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.oracle.OracleDataSourceProcessor;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.postgresql.PostgreSQLDataSourceProcessor;
@@ -54,6 +55,8 @@ public class DataSourceUtils {
     private static final DataSourceProcessor db2PROCESSOR = new Db2DataSourceProcessor();
     private static final DataSourceProcessor prestoPROCESSOR = new PrestoDataSourceProcessor();
     private static final DataSourceProcessor redshiftProcessor = new RedshiftDataSourceProcessor();
+    private static final DataSourceProcessor mongoProcessor = new MongoDataSourceProcessor();
+
 
     /**
      * check datasource param
@@ -124,6 +127,8 @@ public class DataSourceUtils {
                 return prestoPROCESSOR;
             case REDSHIFT:
                 return redshiftProcessor;
+            case MONGODB:
+                return mongoProcessor;
             default:
                 throw new IllegalArgumentException("datasource type illegal:" + dbType);
         }

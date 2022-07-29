@@ -17,6 +17,8 @@
 
 package org.apache.dolphinscheduler.api.service.impl;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import org.apache.dolphinscheduler.api.enums.Status;
 import org.apache.dolphinscheduler.api.service.DataSourceService;
 import org.apache.dolphinscheduler.api.utils.PageInfo;
@@ -28,6 +30,7 @@ import org.apache.dolphinscheduler.dao.entity.User;
 import org.apache.dolphinscheduler.dao.mapper.DataSourceMapper;
 import org.apache.dolphinscheduler.dao.mapper.DataSourceUserMapper;
 import org.apache.dolphinscheduler.plugin.datasource.api.datasource.BaseDataSourceParamDTO;
+import org.apache.dolphinscheduler.plugin.datasource.api.datasource.mongo.MongoConnectionParam;
 import org.apache.dolphinscheduler.plugin.datasource.api.plugin.DataSourceClientProvider;
 import org.apache.dolphinscheduler.plugin.datasource.api.utils.DataSourceUtils;
 import org.apache.dolphinscheduler.spi.datasource.BaseConnectionParam;
@@ -102,13 +105,13 @@ public class DataSourceServiceImpl extends BaseServiceImpl implements DataSource
         // check connect
         ConnectionParam connectionParam = DataSourceUtils.buildConnectionParams(datasourceParam);
 
-        if(!datasourceParam.getType().equals(DbType.MONGODB)){
-            Result<Object> isConnection = checkConnection(datasourceParam.getType(), connectionParam);
-            if (Status.SUCCESS.getCode() != isConnection.getCode()) {
-                putMsg(result, Status.DATASOURCE_CONNECT_FAILED);
-                return result;
-            }
+//        if(!datasourceParam.getType().equals(DbType.MONGODB)){
+        Result<Object> isConnection = checkConnection(datasourceParam.getType(), connectionParam);
+        if (Status.SUCCESS.getCode() != isConnection.getCode()) {
+            putMsg(result, Status.DATASOURCE_CONNECT_FAILED);
+            return result;
         }
+//        }
 
 
         // build datasource
@@ -334,20 +337,41 @@ public class DataSourceServiceImpl extends BaseServiceImpl implements DataSource
     @Override
     public Result<Object> checkConnection(DbType type, ConnectionParam connectionParam) {
         Result<Object> result = new Result<>();
-        try (Connection connection = DataSourceClientProvider.getInstance().getConnection(type, connectionParam)) {
-            if (connection == null) {
-                putMsg(result, Status.CONNECTION_TEST_FAILURE);
+        if(type.equals(DbType.MONGODB)){
+            MongoClient client = null;
+            try{
+                MongoConnectionParam mongoConnectionParam = (MongoConnectionParam) connectionParam;
+                client = MongoClients.create(mongoConnectionParam.getJdbcUrl());
+                putMsg(result, Status.SUCCESS);
                 return result;
+            }catch (Exception e) {
+                String message = Optional.of(e).map(Throwable::getCause)
+                        .map(Throwable::getMessage)
+                        .orElse(e.getMessage());
+                logger.error("datasource test connection error, dbType:{}, connectionParam:{}, message:{}.", type, connectionParam, message);
+                return new Result<>(Status.CONNECTION_TEST_FAILURE.getCode(), message);
+            }finally {
+                if(client != null){
+                    client.close();
+                }
             }
-            putMsg(result, Status.SUCCESS);
-            return result;
-        } catch (Exception e) {
-            String message = Optional.of(e).map(Throwable::getCause)
-                    .map(Throwable::getMessage)
-                    .orElse(e.getMessage());
-            logger.error("datasource test connection error, dbType:{}, connectionParam:{}, message:{}.", type, connectionParam, message);
-            return new Result<>(Status.CONNECTION_TEST_FAILURE.getCode(), message);
+        }else{
+            try (Connection connection = DataSourceClientProvider.getInstance().getConnection(type, connectionParam)) {
+                if (connection == null) {
+                    putMsg(result, Status.CONNECTION_TEST_FAILURE);
+                    return result;
+                }
+                putMsg(result, Status.SUCCESS);
+                return result;
+            } catch (Exception e) {
+                String message = Optional.of(e).map(Throwable::getCause)
+                        .map(Throwable::getMessage)
+                        .orElse(e.getMessage());
+                logger.error("datasource test connection error, dbType:{}, connectionParam:{}, message:{}.", type, connectionParam, message);
+                return new Result<>(Status.CONNECTION_TEST_FAILURE.getCode(), message);
+            }
         }
+
     }
 
     /**

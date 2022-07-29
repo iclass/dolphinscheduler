@@ -63,7 +63,7 @@ public class MongoDataSourceProcessor extends AbstractDataSourceProcessor {
         String address = connectionParams.getAddress();
         String[] hostSeperator = address.split(Constants.DOUBLE_SLASH);
         String[] hostPortArray = hostSeperator[hostSeperator.length - 1].split(Constants.COMMA);
-        mysqlDatasourceParamDTO.setPort(Integer.parseInt(hostPortArray[0].split(Constants.COLON)[1]));
+        mysqlDatasourceParamDTO.setPort(Integer.parseInt(hostPortArray[0].split(Constants.COLON)[2]));
         mysqlDatasourceParamDTO.setHost(hostPortArray[0].split(Constants.COLON)[0].replace("@",""));
 
         return mysqlDatasourceParamDTO;

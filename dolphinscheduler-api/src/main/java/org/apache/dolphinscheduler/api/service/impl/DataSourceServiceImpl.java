@@ -350,7 +350,7 @@ public class DataSourceServiceImpl extends BaseServiceImpl implements DataSource
                         .map(Throwable::getMessage)
                         .orElse(e.getMessage());
                 logger.error("datasource test connection error, dbType:{}, connectionParam:{}, message:{}.", type, connectionParam, message);
-                return new Result<>(Status.CONNECTION_TEST_FAILURE.getCode(), message);
+                return new Result<>(Status.CONNECTION_TEST_FAILURE.getCode(), Status.CONNECTION_TEST_FAILURE.getMsg());
             }finally {
                 if(client != null){
                     client.close();

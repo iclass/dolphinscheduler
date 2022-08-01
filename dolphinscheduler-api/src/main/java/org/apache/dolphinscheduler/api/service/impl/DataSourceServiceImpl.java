@@ -341,6 +341,7 @@ public class DataSourceServiceImpl extends BaseServiceImpl implements DataSource
             MongoClient client = null;
             try{
                 MongoConnectionParam mongoConnectionParam = (MongoConnectionParam) connectionParam;
+                logger.info("mongo url:" + (mongoConnectionParam.getJdbcUrl()));
                 client = MongoClients.create(mongoConnectionParam.getJdbcUrl());
                 client.listDatabaseNames().forEach(a->a.toString());
                 putMsg(result, Status.SUCCESS);

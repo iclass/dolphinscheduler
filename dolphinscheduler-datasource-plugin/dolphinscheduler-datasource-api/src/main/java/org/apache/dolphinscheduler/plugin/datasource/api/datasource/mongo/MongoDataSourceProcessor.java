@@ -73,7 +73,7 @@ public class MongoDataSourceProcessor extends AbstractDataSourceProcessor {
     public BaseConnectionParam createConnectionParams(BaseDataSourceParamDTO dataSourceParam) {
         MongoDataSourceParamDTO mongoDataSourceParamDTO = (MongoDataSourceParamDTO) dataSourceParam;
         String address = String.format("%s%s:%s@%s:%s", Constants.MONGO_DB, mongoDataSourceParamDTO.getUserName(), mongoDataSourceParamDTO.getPassword(), mongoDataSourceParamDTO.getHost(), mongoDataSourceParamDTO.getPort());
-        String jdbcUrl = String.format("%s/%s", address, mongoDataSourceParamDTO.getDatabase());
+        String jdbcUrl = String.format("%s", address);
 
         MongoConnectionParam mysqlConnectionParam = new MongoConnectionParam();
         mysqlConnectionParam.setJdbcUrl(jdbcUrl);

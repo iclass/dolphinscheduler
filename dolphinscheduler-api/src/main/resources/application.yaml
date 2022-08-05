@@ -16,11 +16,11 @@
 #
 cas:
   client:
-    prefix: http://112.17.252.162:30227
-    login: http://112.17.252.162:30227/dolphinscheduler/login/cas
-    logoutRelative: /dolphinscheduler/logout/cas
-    logout: http://112.17.252.162:30227/dolphinscheduler/logout/cas
-    frontUrl: http://112.17.252.162:30227/dolphinscheduler/ui/transition
+    prefix: http://localhost:12345
+    login: http://localhost:12345/etl/login/cas
+    logoutRelative: /etl/logout/cas
+    logout: http://localhost:12345/etl/logout/cas
+    frontUrl: http://localhost:12345/etl/ui/transition
   server:
     prefix: https://tianyin-dw-test-cas.iclass.cn
     login: https://tianyin-dw-test-cas.iclass.cn/login
@@ -31,7 +31,7 @@ server:
   servlet:
     session:
       timeout: 120m
-    context-path: /dolphinscheduler/
+    context-path: /etl/
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,application/xml

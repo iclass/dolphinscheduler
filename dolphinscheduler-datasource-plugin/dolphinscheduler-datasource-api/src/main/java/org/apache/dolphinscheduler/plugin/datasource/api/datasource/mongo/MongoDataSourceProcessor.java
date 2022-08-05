@@ -63,28 +63,28 @@ public class MongoDataSourceProcessor extends AbstractDataSourceProcessor {
         String address = connectionParams.getAddress();
         String[] hostSeperator = address.split(Constants.DOUBLE_SLASH);
         String[] hostPortArray = hostSeperator[hostSeperator.length - 1].split(Constants.COMMA);
-        mysqlDatasourceParamDTO.setPort(Integer.parseInt(hostPortArray[0].split(Constants.COLON)[1]));
-        mysqlDatasourceParamDTO.setHost(hostPortArray[0].split(Constants.COLON)[0]);
+        mysqlDatasourceParamDTO.setPort(Integer.parseInt(hostPortArray[0].split(Constants.COLON)[2]));
+        mysqlDatasourceParamDTO.setHost(hostPortArray[0].split(Constants.COLON)[1].split("@")[1]);
 
         return mysqlDatasourceParamDTO;
     }
 
     @Override
     public BaseConnectionParam createConnectionParams(BaseDataSourceParamDTO dataSourceParam) {
-        MongoDataSourceParamDTO mysqlDatasourceParam = (MongoDataSourceParamDTO) dataSourceParam;
-        String address = String.format("%s@%s:%s", Constants.MONGO_DB, mysqlDatasourceParam.getHost(), mysqlDatasourceParam.getPort());
-        String jdbcUrl = String.format("%s/%s", address, mysqlDatasourceParam.getDatabase());
+        MongoDataSourceParamDTO mongoDataSourceParamDTO = (MongoDataSourceParamDTO) dataSourceParam;
+        String address = String.format("%s%s:%s@%s:%s", Constants.MONGO_DB, mongoDataSourceParamDTO.getUserName(), mongoDataSourceParamDTO.getPassword(), mongoDataSourceParamDTO.getHost(), mongoDataSourceParamDTO.getPort());
+        String jdbcUrl = String.format("%s", address);
 
         MongoConnectionParam mysqlConnectionParam = new MongoConnectionParam();
         mysqlConnectionParam.setJdbcUrl(jdbcUrl);
-        mysqlConnectionParam.setDatabase(mysqlDatasourceParam.getDatabase());
+        mysqlConnectionParam.setDatabase(mongoDataSourceParamDTO.getDatabase());
         mysqlConnectionParam.setAddress(address);
-        mysqlConnectionParam.setUser(mysqlDatasourceParam.getUserName());
-        mysqlConnectionParam.setPassword(PasswordUtils.encodePassword(mysqlDatasourceParam.getPassword()));
+        mysqlConnectionParam.setUser(mongoDataSourceParamDTO.getUserName());
+        mysqlConnectionParam.setPassword(PasswordUtils.encodePassword(mongoDataSourceParamDTO.getPassword()));
         mysqlConnectionParam.setDriverClassName(getDatasourceDriver());
         mysqlConnectionParam.setValidationQuery(getValidationQuery());
-        mysqlConnectionParam.setOther(transformOther(mysqlDatasourceParam.getOther()));
-        mysqlConnectionParam.setProps(mysqlDatasourceParam.getOther());
+        mysqlConnectionParam.setOther(transformOther(mongoDataSourceParamDTO.getOther()));
+        mysqlConnectionParam.setProps(mongoDataSourceParamDTO.getOther());
 
         return mysqlConnectionParam;
     }

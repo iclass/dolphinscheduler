@@ -52,7 +52,7 @@ const Logo = defineComponent({
 
           <img src={imgUrl} alt='logo'></img>
 
-          <span>ELT</span>
+          <span>ETL</span>
         </div>
     )
   }

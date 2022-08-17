@@ -170,7 +170,7 @@ export function useForm(id?: number) {
   }
 }
 
-const datasourceType: IDataBaseOptionKeys = {
+export const datasourceType: IDataBaseOptionKeys = {
   MYSQL: {
     value: 'MYSQL',
     label: 'MYSQL',

@@ -18,7 +18,9 @@
 package org.apache.dolphinscheduler.api.service;
 
 import org.apache.dolphinscheduler.api.utils.Result;
+import org.apache.dolphinscheduler.dao.entity.Tenant;
 import org.apache.dolphinscheduler.dao.entity.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -94,14 +96,6 @@ public interface TenantService {
     Result verifyTenantCode(String tenantCode);
 
     /**
-     * check if provide tenant code object exists
-     *
-     * @param tenantCode tenant code
-     * @return true if tenant code exists, false if not
-     */
-    boolean checkTenantExists(String tenantCode);
-
-    /**
      * query tenant by tenant code
      *
      * @param tenantCode tenant code
@@ -109,10 +103,18 @@ public interface TenantService {
      */
     Map<String, Object> queryByTenantCode(String tenantCode);
 
+    Integer createSSOTenant(String userName, Integer queueId) throws Exception;
+
     /**
-     * create tenant by sso user
+     * Make sure tenant with given name exists, and create the tenant if not exists
      *
-     * @param userName
+     * ONLY for python gateway server, and should not use this in web ui function
+     *
+     * @param tenantCode tenant code
+     * @param desc The description of tenant object
+     * @param queue The value of queue which current tenant belong
+     * @param queueName The name of queue which current tenant belong
+     * @return Tenant object
      */
-    Integer createSSOTenant(String userName,Integer queueId) throws Exception;
+    Tenant createTenantIfNotExists(String tenantCode, String desc, String queue, String queueName);
 }

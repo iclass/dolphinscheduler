@@ -95,6 +95,15 @@ management:
     web:
       exposure:
         include: '*'
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  health:
+    db:
+      enabled: true
+    defaults:
+      enabled: false
   metrics:
     tags:
       application: ${spring.application.name}
@@ -154,6 +163,23 @@ security:
       password: password
       user.identity.attribute: uid
       user.email.attribute: mail
+
+
+# Traffic control, if you turn on this config, the maximum number of request/s will be limited.
+# global max request number per second
+# default tenant-level max request number
+traffic:
+  control:
+    global-switch: false
+    max-global-qps-rate: 300
+    tenant-switch: false
+    default-tenant-qps-rate: 10
+    #customize-tenant-qps-rate:
+      # eg.
+      #tenant1: 11
+      #tenant2: 20
+
+
 # Override by profile
 
 ---
@@ -163,6 +189,9 @@ spring:
       on-profile: mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dolphinscheduler
+    username: root
+    password: root
   quartz:
     properties:
       org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate

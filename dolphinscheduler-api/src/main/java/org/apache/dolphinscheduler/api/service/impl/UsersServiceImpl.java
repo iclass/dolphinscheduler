@@ -137,7 +137,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @throws Exception exception
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public Map<String, Object> createUser(User loginUser,
                                           String userName,
                                           String userPassword,
@@ -181,7 +181,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public User createUser(String userName,
                            String userPassword,
                            String email,
@@ -254,7 +254,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * create User for ldap login
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public User createUser(UserType userType, String userId, String email) {
         User user = new User();
         Date now = new Date();
@@ -541,7 +541,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @throws Exception exception when operate hdfs
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Map<String, Object> deleteUserById(User loginUser, int id) throws IOException {
         Map<String, Object> result = new HashMap<>();
         //only admin can operate
@@ -584,7 +584,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @return grant result code
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Map<String, Object> grantProject(User loginUser, int userId, String projectIds) {
         Map<String, Object> result = new HashMap<>();
         result.put(Constants.STATUS, false);
@@ -713,7 +713,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @return grant result code
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Map<String, Object> grantResources(User loginUser, int userId, String resourceIds) {
         Map<String, Object> result = new HashMap<>();
 
@@ -807,7 +807,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @return grant result code
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Map<String, Object> grantUDFFunction(User loginUser, int userId, String udfIds) {
         Map<String, Object> result = new HashMap<>();
 
@@ -851,7 +851,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @return grant result code
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Map<String, Object> grantNamespaces(User loginUser, int userId, String namespaceIds) {
         Map<String, Object> result = new HashMap<>();
         result.put(Constants.STATUS, false);
@@ -898,7 +898,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @return grant result code
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Map<String, Object> grantDataSource(User loginUser, int userId, String datasourceIds) {
         Map<String, Object> result = new HashMap<>();
         result.put(Constants.STATUS, false);
@@ -1181,7 +1181,7 @@ public class UsersServiceImpl extends BaseServiceImpl implements UsersService {
      * @throws Exception exception
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Map<String, Object> registerUser(String userName, String userPassword, String repeatPassword, String email) {
         Map<String, Object> result = new HashMap<>();
 

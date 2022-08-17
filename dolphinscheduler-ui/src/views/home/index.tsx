@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { defineComponent, inject, onMounted, ref, toRefs, watch } from 'vue'
+import { defineComponent, onMounted, ref, toRefs, watch } from 'vue'
 import { NGrid, NGi } from 'naive-ui'
 import { startOfToday, getTime } from 'date-fns'
 import { useI18n } from 'vue-i18n'
@@ -23,10 +23,6 @@ import { useTaskState } from './use-task-state'
 import { useProcessState } from './use-process-state'
 import StateCard from './components/state-card'
 import DefinitionCard from './components/definition-card'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/store/user/user'
-import { getUserInfo } from '@/service/modules/users'
-import { UserInfoRes } from '@/service/modules/users/types'
 
 export default defineComponent({
   name: 'home',
@@ -35,22 +31,13 @@ export default defineComponent({
     const dateRef = ref([getTime(startOfToday()), Date.now()])
     const taskStateRef = ref()
     const processStateRef = ref()
-    const router = useRouter()
-    const onRefresh = inject<Function>('reload')
-    const userInfoRes = ref()
-    const userStore = useUserStore()
-    const _user = ref(localStorage.getItem('user'))
-    const value =  _user ? JSON.parse(String(_user.value)) : null
-
     const { getTaskState, taskVariables } = useTaskState()
     const { getProcessState, processVariables } = useProcessState()
 
     const initData = () => {
-      
-      taskStateRef.value = getTaskState(dateRef.value)
-      processStateRef.value = getProcessState(dateRef.value)
-
-
+      taskStateRef.value = getTaskState(dateRef.value) || taskStateRef.value
+      processStateRef.value =
+        getProcessState(dateRef.value) || processStateRef.value
     }
 
     const handleTaskDate = (val: any) => {
@@ -62,18 +49,17 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      
       initData()
     })
+
     watch(
       () => locale.value,
-      () => initData(), 
+      () => initData()
     )
 
     return {
       t,
       dateRef,
-      onRefresh,
       handleTaskDate,
       handleProcessDate,
       taskStateRef,
@@ -125,4 +111,3 @@ export default defineComponent({
     )
   }
 })
-

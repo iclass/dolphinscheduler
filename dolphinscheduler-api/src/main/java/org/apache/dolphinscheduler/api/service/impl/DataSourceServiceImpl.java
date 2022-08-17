@@ -94,6 +94,7 @@ public class DataSourceServiceImpl extends BaseServiceImpl implements DataSource
      * @return create result code
      */
     @Override
+    @Transactional
     public Result<Object> createDataSource(User loginUser, BaseDataSourceParamDTO datasourceParam) {
         DataSourceUtils.checkDatasourceParam(datasourceParam);
         Result<Object> result = new Result<>();
@@ -401,7 +402,7 @@ public class DataSourceServiceImpl extends BaseServiceImpl implements DataSource
      * @return delete result code
      */
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional
     public Result<Object> delete(User loginUser, int datasourceId) {
         Result<Object> result = new Result<>();
         try {
